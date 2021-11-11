@@ -26,18 +26,20 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Spacer()
                 HStack {
                     Image("fb_icon").padding()
                     Text("Field Book")
                         .font(.largeTitle)
-                }.frame(alignment: .top).padding()
+                }.frame(alignment: .top)
+                Spacer()
                 HomeScreen()
                 Spacer()
                 Text("v5.1").frame(maxWidth: .infinity, alignment: .trailing).padding()
             }.frame(maxHeight: .infinity, alignment: .topLeading)
                 .navigationBarHidden(true)
                 .navigationTitle("Home")
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

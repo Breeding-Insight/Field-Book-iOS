@@ -12,13 +12,15 @@ struct HomeScreen: View {
 
     var body: some View {
         VStack {
+            Spacer()
             HStack {
                 Spacer()
                 HomeScreenWidget(icon: "fields", label: "Fields", destination: AnyView(FieldListView()), selection: $selection)
                 Spacer()
                 HomeScreenWidget(icon: "traits", label: "Traits", destination: AnyView(TraitListView()), selection: $selection)
                 Spacer()
-            }.padding(.bottom).padding(.top)
+            }.padding(.bottom)
+            Spacer()
             HStack {
                 Spacer()
                 HomeScreenWidget(icon: "create", label: "Collect", destination: AnyView(Text("View Fields")), selection: $selection)
@@ -26,15 +28,17 @@ struct HomeScreen: View {
                 HomeScreenWidget(icon: "save", label: "Export", destination: AnyView(Text("View Fields")), selection: $selection)
                 Spacer()
             }.padding(.bottom).padding(.top)
+            Spacer()
             HStack {
                 Spacer()
                 HomeScreenWidget(icon: "settings", label: "Settings", destination: AnyView(Text("View Fields")), selection: $selection)
                 Spacer()
                 HomeScreenWidget(icon: "info", label: "About", destination: AnyView(Text("View About")), selection: $selection)
                 Spacer()
-            }.padding(.bottom).padding(.top)
+            }.padding(.top)
                 .frame(maxWidth: .infinity)
-        }
+            Spacer()
+        }.frame(maxHeight: .infinity)
     }
 }
 
