@@ -23,7 +23,7 @@ struct HomeScreen: View {
             Spacer()
             HStack {
                 Spacer()
-                HomeScreenWidget(icon: "create", label: "Collect", destination: AnyView(Text("View Fields")), selection: $selection)
+                HomeScreenWidget(icon: "create", label: "Collect", destination: AnyView(CollectView()), selection: $selection)
                 Spacer()
                 HomeScreenWidget(icon: "save", label: "Export", destination: AnyView(Text("View Fields")), selection: $selection)
                 Spacer()
@@ -31,7 +31,7 @@ struct HomeScreen: View {
             Spacer()
             HStack {
                 Spacer()
-                HomeScreenWidget(icon: "settings", label: "Settings", destination: AnyView(Text("View Fields")), selection: $selection)
+                HomeScreenWidget(icon: "settings", label: "Settings", destination: AnyView(SettingsView()), selection: $selection)
                 Spacer()
                 HomeScreenWidget(icon: "info", label: "About", destination: AnyView(Text("View About")), selection: $selection)
                 Spacer()

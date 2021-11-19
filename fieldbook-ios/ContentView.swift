@@ -11,16 +11,26 @@ struct ContentView: View {
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
-          coloredAppearance.configureWithOpaqueBackground()
+        coloredAppearance.configureWithOpaqueBackground()
         coloredAppearance.backgroundColor = UIColor(Color.primaryFB)
-          coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-          coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-          
-          UINavigationBar.appearance().standardAppearance = coloredAppearance
-          UINavigationBar.appearance().compactAppearance = coloredAppearance
-          UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
-          
-          UINavigationBar.appearance().tintColor = .black
+        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+        
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        UINavigationBar.appearance().compactAppearance = coloredAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        
+        UINavigationBar.appearance().tintColor = .black
+        
+        let coloredToolbarAppearance = UIToolbarAppearance()
+        coloredToolbarAppearance.configureWithOpaqueBackground()
+        coloredToolbarAppearance.backgroundColor = UIColor(Color.primaryFB)
+        
+        UIToolbar.appearance().standardAppearance = coloredToolbarAppearance
+        UIToolbar.appearance().compactAppearance = coloredToolbarAppearance
+        UIToolbar.appearance().scrollEdgeAppearance = coloredToolbarAppearance
+        
+        UIToolbar.appearance().tintColor = .black
     }
     
     var body: some View {
@@ -32,10 +42,11 @@ struct ContentView: View {
                     Text("Field Book")
                         .font(.largeTitle)
                 }.frame(alignment: .top)
+                Text("Current Field: Prosser Fall 2021")
                 Spacer()
                 HomeScreen()
                 Spacer()
-                Text("v5.1").frame(maxWidth: .infinity, alignment: .trailing).padding()
+                Text("v1.0").frame(maxWidth: .infinity, alignment: .trailing).padding()
             }.frame(maxHeight: .infinity, alignment: .topLeading)
                 .navigationBarHidden(true)
                 .navigationTitle("Home")

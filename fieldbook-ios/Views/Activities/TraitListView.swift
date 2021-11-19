@@ -38,7 +38,7 @@ struct TraitListView: View {
                             showSheet = true}),
                         .default(Text("From File"), action: {sheetContent = .file
                             showSheet = true}),
-                        .default(Text("Create Field"), action: {sheetContent = .newTrait
+                        .default(Text("Create Trait"), action: {sheetContent = .newTrait
                             showSheet = true})
                     ])
                 }.sheet(isPresented: $showSheet, content: {
@@ -86,6 +86,6 @@ private struct Trait: View {
 
 struct TraitListView_Previews: PreviewProvider {
     static var previews: some View {
-        FieldListView()
+        TraitListView()
     }
 }

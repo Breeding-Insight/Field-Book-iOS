@@ -7,11 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		22470ED3273C4A2400697B0E /* BrapiStudyImportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22470ED2273C4A2400697B0E /* BrapiStudyImportSheet.swift */; };
-		22470ED5273C4A2B00697B0E /* FileImportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22470ED4273C4A2B00697B0E /* FileImportSheet.swift */; };
-		22470ED7273C4A3300697B0E /* CreateFieldSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22470ED6273C4A3300697B0E /* CreateFieldSheet.swift */; };
 		22470ED9273CCFCC00697B0E /* TraitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22470ED8273CCFCC00697B0E /* TraitListView.swift */; };
 		22470EDC273CD22C00697B0E /* BrAPITraitImportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22470EDB273CD22C00697B0E /* BrAPITraitImportSheet.swift */; };
+		225EBA1E2747685600528ED6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA1C2747685600528ED6 /* SettingsView.swift */; };
+		225EBA1F2747685600528ED6 /* CollectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA1D2747685600528ED6 /* CollectView.swift */; };
+		225EBA2F27476A7200528ED6 /* DurationScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA2827476A7200528ED6 /* DurationScale.swift */; };
+		225EBA3027476A7200528ED6 /* NumericalScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA2927476A7200528ED6 /* NumericalScale.swift */; };
+		225EBA3127476A7200528ED6 /* CodeScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA2A27476A7200528ED6 /* CodeScale.swift */; };
+		225EBA3227476A7200528ED6 /* TextScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA2B27476A7200528ED6 /* TextScale.swift */; };
+		225EBA3327476A7200528ED6 /* OrdinalScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA2C27476A7200528ED6 /* OrdinalScale.swift */; };
+		225EBA3427476A7200528ED6 /* NominalScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA2D27476A7200528ED6 /* NominalScale.swift */; };
+		225EBA3527476A7200528ED6 /* DateScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA2E27476A7200528ED6 /* DateScale.swift */; };
 		2268D5322735CDAA0088A202 /* fieldbook_iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2268D5312735CDAA0088A202 /* fieldbook_iosApp.swift */; };
 		2268D5342735CDAA0088A202 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2268D5332735CDAA0088A202 /* ContentView.swift */; };
 		2268D5362735CDAA0088A202 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2268D5352735CDAA0088A202 /* Assets.xcassets */; };
@@ -19,12 +25,15 @@
 		2268D5432735CDAA0088A202 /* fieldbook_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2268D5422735CDAA0088A202 /* fieldbook_iosTests.swift */; };
 		2268D54D2735CDAA0088A202 /* fieldbook_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2268D54C2735CDAA0088A202 /* fieldbook_iosUITests.swift */; };
 		2268D54F2735CDAA0088A202 /* fieldbook_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2268D54E2735CDAA0088A202 /* fieldbook_iosUITestsLaunchTests.swift */; };
-		229735292735D663007D8104 /* brapi-client in Resources */ = {isa = PBXBuildFile; fileRef = 229735282735D663007D8104 /* brapi-client */; };
 		2297352C2735DAAA007D8104 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2297352B2735DAAA007D8104 /* Alamofire */; };
 		2297352F27361B5F007D8104 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2297352E27361B5F007D8104 /* HomeScreen.swift */; };
 		2297353127364D31007D8104 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2297353027364D31007D8104 /* AppColors.swift */; };
 		229735352736AE6E007D8104 /* FieldListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229735342736AE6E007D8104 /* FieldListView.swift */; };
 		22973537273B179E007D8104 /* HomeScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22973536273B179E007D8104 /* HomeScreenWidget.swift */; };
+		22C8663F27476AC7001CB8B6 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 22C8663E27476AC7001CB8B6 /* WrappingHStack */; };
+		22C8664327476B28001CB8B6 /* BrapiStudyImportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664027476B27001CB8B6 /* BrapiStudyImportSheet.swift */; };
+		22C8664427476B28001CB8B6 /* CreateFieldSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664127476B27001CB8B6 /* CreateFieldSheet.swift */; };
+		22C8664527476B28001CB8B6 /* FileImportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664227476B28001CB8B6 /* FileImportSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,11 +54,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		22470ED2273C4A2400697B0E /* BrapiStudyImportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrapiStudyImportSheet.swift; sourceTree = "<group>"; };
-		22470ED4273C4A2B00697B0E /* FileImportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileImportSheet.swift; sourceTree = "<group>"; };
-		22470ED6273C4A3300697B0E /* CreateFieldSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFieldSheet.swift; sourceTree = "<group>"; };
 		22470ED8273CCFCC00697B0E /* TraitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitListView.swift; sourceTree = "<group>"; };
 		22470EDB273CD22C00697B0E /* BrAPITraitImportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrAPITraitImportSheet.swift; sourceTree = "<group>"; };
+		225EBA1C2747685600528ED6 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		225EBA1D2747685600528ED6 /* CollectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectView.swift; sourceTree = "<group>"; };
+		225EBA2827476A7200528ED6 /* DurationScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DurationScale.swift; sourceTree = "<group>"; };
+		225EBA2927476A7200528ED6 /* NumericalScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericalScale.swift; sourceTree = "<group>"; };
+		225EBA2A27476A7200528ED6 /* CodeScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeScale.swift; sourceTree = "<group>"; };
+		225EBA2B27476A7200528ED6 /* TextScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextScale.swift; sourceTree = "<group>"; };
+		225EBA2C27476A7200528ED6 /* OrdinalScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrdinalScale.swift; sourceTree = "<group>"; };
+		225EBA2D27476A7200528ED6 /* NominalScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NominalScale.swift; sourceTree = "<group>"; };
+		225EBA2E27476A7200528ED6 /* DateScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateScale.swift; sourceTree = "<group>"; };
 		2268D52E2735CDAA0088A202 /* fieldbook-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fieldbook-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2268D5312735CDAA0088A202 /* fieldbook_iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fieldbook_iosApp.swift; sourceTree = "<group>"; };
 		2268D5332735CDAA0088A202 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,11 +75,13 @@
 		2268D5482735CDAA0088A202 /* fieldbook-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fieldbook-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2268D54C2735CDAA0088A202 /* fieldbook_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fieldbook_iosUITests.swift; sourceTree = "<group>"; };
 		2268D54E2735CDAA0088A202 /* fieldbook_iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fieldbook_iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		229735282735D663007D8104 /* brapi-client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "brapi-client"; sourceTree = "<group>"; };
 		2297352E27361B5F007D8104 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		2297353027364D31007D8104 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		229735342736AE6E007D8104 /* FieldListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldListView.swift; sourceTree = "<group>"; };
 		22973536273B179E007D8104 /* HomeScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenWidget.swift; sourceTree = "<group>"; };
+		22C8664027476B27001CB8B6 /* BrapiStudyImportSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrapiStudyImportSheet.swift; sourceTree = "<group>"; };
+		22C8664127476B27001CB8B6 /* CreateFieldSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateFieldSheet.swift; sourceTree = "<group>"; };
+		22C8664227476B28001CB8B6 /* FileImportSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImportSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22C8663F27476AC7001CB8B6 /* WrappingHStack in Frameworks */,
 				2297352C2735DAAA007D8104 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,19 +114,33 @@
 		22470ED1273C49EC00697B0E /* Fields */ = {
 			isa = PBXGroup;
 			children = (
-				22470ED2273C4A2400697B0E /* BrapiStudyImportSheet.swift */,
-				22470ED4273C4A2B00697B0E /* FileImportSheet.swift */,
-				22470ED6273C4A3300697B0E /* CreateFieldSheet.swift */,
+				22C8664027476B27001CB8B6 /* BrapiStudyImportSheet.swift */,
+				22C8664127476B27001CB8B6 /* CreateFieldSheet.swift */,
+				22C8664227476B28001CB8B6 /* FileImportSheet.swift */,
 			);
 			path = Fields;
 			sourceTree = "<group>";
 		};
-		22470EDA273CD21D00697B0E /* Trials */ = {
+		22470EDA273CD21D00697B0E /* Traits */ = {
 			isa = PBXGroup;
 			children = (
 				22470EDB273CD22C00697B0E /* BrAPITraitImportSheet.swift */,
 			);
-			path = Trials;
+			path = Traits;
+			sourceTree = "<group>";
+		};
+		225EBA2727476A4600528ED6 /* Scales */ = {
+			isa = PBXGroup;
+			children = (
+				225EBA2A27476A7200528ED6 /* CodeScale.swift */,
+				225EBA2E27476A7200528ED6 /* DateScale.swift */,
+				225EBA2827476A7200528ED6 /* DurationScale.swift */,
+				225EBA2D27476A7200528ED6 /* NominalScale.swift */,
+				225EBA2927476A7200528ED6 /* NumericalScale.swift */,
+				225EBA2C27476A7200528ED6 /* OrdinalScale.swift */,
+				225EBA2B27476A7200528ED6 /* TextScale.swift */,
+			);
+			path = Scales;
 			sourceTree = "<group>";
 		};
 		2268D5252735CDAA0088A202 = {
@@ -134,7 +166,6 @@
 		2268D5302735CDAA0088A202 /* fieldbook-ios */ = {
 			isa = PBXGroup;
 			children = (
-				229735282735D663007D8104 /* brapi-client */,
 				2268D5312735CDAA0088A202 /* fieldbook_iosApp.swift */,
 				2268D5332735CDAA0088A202 /* ContentView.swift */,
 				2297352D2735DD59007D8104 /* Views */,
@@ -182,7 +213,8 @@
 		229735322736AE4D007D8104 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				22470EDA273CD21D00697B0E /* Trials */,
+				225EBA2727476A4600528ED6 /* Scales */,
+				22470EDA273CD21D00697B0E /* Traits */,
 				22470ED1273C49EC00697B0E /* Fields */,
 				2297352E27361B5F007D8104 /* HomeScreen.swift */,
 				22973536273B179E007D8104 /* HomeScreenWidget.swift */,
@@ -193,6 +225,8 @@
 		229735332736AE5D007D8104 /* Activities */ = {
 			isa = PBXGroup;
 			children = (
+				225EBA1D2747685600528ED6 /* CollectView.swift */,
+				225EBA1C2747685600528ED6 /* SettingsView.swift */,
 				229735342736AE6E007D8104 /* FieldListView.swift */,
 				22470ED8273CCFCC00697B0E /* TraitListView.swift */,
 			);
@@ -217,6 +251,7 @@
 			name = "fieldbook-ios";
 			packageProductDependencies = (
 				2297352B2735DAAA007D8104 /* Alamofire */,
+				22C8663E27476AC7001CB8B6 /* WrappingHStack */,
 			);
 			productName = "fieldbook-ios";
 			productReference = 2268D52E2735CDAA0088A202 /* fieldbook-ios.app */;
@@ -292,6 +327,7 @@
 			mainGroup = 2268D5252735CDAA0088A202;
 			packageReferences = (
 				2297352A2735DAAA007D8104 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				22C8663D27476AC7001CB8B6 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = 2268D52F2735CDAA0088A202 /* Products */;
 			projectDirPath = "";
@@ -309,7 +345,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				229735292735D663007D8104 /* brapi-client in Resources */,
 				2268D5392735CDAA0088A202 /* Preview Assets.xcassets in Resources */,
 				2268D5362735CDAA0088A202 /* Assets.xcassets in Resources */,
 			);
@@ -338,15 +373,24 @@
 			files = (
 				22973537273B179E007D8104 /* HomeScreenWidget.swift in Sources */,
 				229735352736AE6E007D8104 /* FieldListView.swift in Sources */,
+				225EBA3127476A7200528ED6 /* CodeScale.swift in Sources */,
+				225EBA3427476A7200528ED6 /* NominalScale.swift in Sources */,
 				2297352F27361B5F007D8104 /* HomeScreen.swift in Sources */,
+				225EBA3527476A7200528ED6 /* DateScale.swift in Sources */,
+				225EBA3027476A7200528ED6 /* NumericalScale.swift in Sources */,
+				225EBA3227476A7200528ED6 /* TextScale.swift in Sources */,
+				22C8664527476B28001CB8B6 /* FileImportSheet.swift in Sources */,
 				22470ED9273CCFCC00697B0E /* TraitListView.swift in Sources */,
+				225EBA1F2747685600528ED6 /* CollectView.swift in Sources */,
 				2297353127364D31007D8104 /* AppColors.swift in Sources */,
-				22470ED7273C4A3300697B0E /* CreateFieldSheet.swift in Sources */,
-				22470ED5273C4A2B00697B0E /* FileImportSheet.swift in Sources */,
-				22470ED3273C4A2400697B0E /* BrapiStudyImportSheet.swift in Sources */,
 				2268D5342735CDAA0088A202 /* ContentView.swift in Sources */,
+				225EBA3327476A7200528ED6 /* OrdinalScale.swift in Sources */,
+				225EBA1E2747685600528ED6 /* SettingsView.swift in Sources */,
 				22470EDC273CD22C00697B0E /* BrAPITraitImportSheet.swift in Sources */,
 				2268D5322735CDAA0088A202 /* fieldbook_iosApp.swift in Sources */,
+				225EBA2F27476A7200528ED6 /* DurationScale.swift in Sources */,
+				22C8664327476B28001CB8B6 /* BrapiStudyImportSheet.swift in Sources */,
+				22C8664427476B28001CB8B6 /* CreateFieldSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,6 +741,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		22C8663D27476AC7001CB8B6 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dkk/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -704,6 +756,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2297352A2735DAAA007D8104 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		22C8663E27476AC7001CB8B6 /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22C8663D27476AC7001CB8B6 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
