@@ -8,13 +8,35 @@
 import SwiftUI
 
 struct DateScale: View {
+    @Binding var val: String
+    let dateFormatter = DateFormatter()
+    
+    init(val: Binding<String>) {
+        _val = val
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack (alignment: .center) {
+            DatePicker(
+                    "",
+                    selection: Binding(get: {
+                        dateFormatter.date(from:val) ?? Date()
+                    }, set: {
+                        val = dateFormatter.string(from: $0)
+                    }),
+                    displayedComponents: [.date]
+                )
+                .labelsHidden()
+                .id(val)
+                .datePickerStyle(.compact)
+                .padding()
+        }
     }
 }
 
 struct DateScale_Previews: PreviewProvider {
     static var previews: some View {
-        DateScale()
+        DateScale(val: .constant("2021-01-01"))
     }
 }

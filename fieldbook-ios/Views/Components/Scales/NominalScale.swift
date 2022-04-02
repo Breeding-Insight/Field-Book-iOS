@@ -9,22 +9,22 @@ import SwiftUI
 import WrappingHStack
 
 struct NominalScale: View {
-    var options: [String]
+    var options: [ScaleCategories]
     @Binding var selected: String
     
     var body: some View {
         WrappingHStack(options, id:\.self, alignment: .center) {option in
-            if (option == selected) {
-                Button(option) {
-                    buttonPressed(val: option)
+            if (option.value == selected) {
+                Button(option.value!) {
+                    buttonPressed(val: option.value!)
                 }
-                    .buttonStyle(FillStyle())
+                    .buttonStyle(FilledButtonStyle())
                     .padding(.bottom).fixedSize(horizontal: true, vertical: false)
             } else {
-                Button(option) {
-                    buttonPressed(val: option)
+                Button(option.value!) {
+                    buttonPressed(val: option.value!)
                 }
-                    .buttonStyle(OutlineStyle())
+                    .buttonStyle(OutlinedButtonStyle())
                     .padding(.bottom)
                     .fixedSize(horizontal: true, vertical: false)
             }
@@ -36,30 +36,9 @@ struct NominalScale: View {
     }
 }
 
-struct OutlineStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration
-            .label
-            .frame(minWidth: 44, minHeight: 44)
-            .padding(.horizontal)
-            .foregroundColor(configuration.isPressed ? .gray : .black)
-            .background(RoundedRectangle(cornerRadius: 10).stroke(Color.black))
-    }
-}
-
-struct FillStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .frame(minWidth: 44, minHeight: 44)
-            .padding(.horizontal)
-            .foregroundColor(configuration.isPressed ? .gray : .black)
-            .background(Color.primaryFB)
-            .cornerRadius(10)
-    }
-}
-
 struct NominalScale_Previews: PreviewProvider {
     static var previews: some View {
-        NominalScale(options: ["1sdfasdfasdf", "2asdfasdf", "3asdfasdf", "4asdfasdf"], selected: .constant("1sdfasdfasdf"))
+//        NominalScale(options: ["1sdfasdfasdf", "2asdfasdf", "3asdfasdf", "4asdfasdf"], selected: .constant("1sdfasdfasdf"))
+        NominalScale(options: [ScaleCategories(value:"1sdfasdfasdf"), ScaleCategories(value:"2asdfasdf"), ScaleCategories(value:"3asdfasdf"), ScaleCategories(value:"4asdfasdf")], selected: .constant("1sdfasdfasdf"))
     }
 }

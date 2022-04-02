@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct TextScale: View {
-    @State private var val = ""
+    @Binding var val: String
+
     var body: some View {
         VStack {
             TextField("Value", text: $val)
@@ -20,6 +21,6 @@ struct TextScale: View {
 
 struct TextScale_Previews: PreviewProvider {
     static var previews: some View {
-        TextScale()
+        TextScale(val:.constant(""))
     }
 }

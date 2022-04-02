@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NumericalScale: View {
-    @State private var val = ""
+    @Binding var val: String
     
     var body: some View {
         VStack {
@@ -21,6 +21,6 @@ struct NumericalScale: View {
 
 struct NumericalScale_Previews: PreviewProvider {
     static var previews: some View {
-        NumericalScale()
+        NumericalScale(val: .constant(""))
     }
 }
