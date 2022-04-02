@@ -19,9 +19,9 @@ struct FieldListView: View {
     
     var body: some View {
         List {
-            Field(name:"Field A")
-            Field(name:"Field B")
-            Field(name:"Field C")
+            FieldListItem(name:"Field A")
+            FieldListItem(name:"Field B")
+            FieldListItem(name:"Field C")
             //todo get fields from internal database
         }
         .navigationTitle("Fields")
@@ -30,7 +30,7 @@ struct FieldListView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action:{showingImportAction = true}, label: {
-                    Image(systemName: "plus.circle.fill").foregroundColor(.black)
+                    SwiftUI.Image(systemName: "plus.circle.fill").foregroundColor(.black)
                 }).actionSheet(isPresented: $showingImportAction) {
                     ActionSheet(title: Text("Add Field"), buttons: [
                         .cancel { },
@@ -71,7 +71,7 @@ struct SheetView: View {
     }
 }
 
-struct Field: View {
+struct FieldListItem: View {
     @State private var showingAction = false
     @State private var showingDeleteAlert = false
     @State private var showingSortSheet = false
@@ -82,7 +82,7 @@ struct Field: View {
             Text(self.name)
             Spacer()
             Button(action:{showingAction = true}, label: {
-                Image(systemName: "ellipsis").rotationEffect(.degrees(90))
+                SwiftUI.Image(systemName: "ellipsis").rotationEffect(.degrees(90))
             })
                 .alert("Delete Field?", isPresented: $showingDeleteAlert) {
                     Button("No", role:.cancel) { }

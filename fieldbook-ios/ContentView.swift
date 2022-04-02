@@ -38,7 +38,7 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Image("fb_icon").padding()
+                    SwiftUI.Image("fb_icon").padding()
                     Text("Field Book")
                         .font(.largeTitle)
                 }.frame(alignment: .top)

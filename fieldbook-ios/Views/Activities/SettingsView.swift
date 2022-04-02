@@ -10,50 +10,51 @@ import SwiftUI
 struct SettingsView: View {
     var body: some View {
         List {
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: GeneralSettingsView()) {
                 HStack {
-                    Image(systemName: "gearshape")
+                    SwiftUI.Image(systemName: "gearshape")
                     Text("General")
                 }
             }
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: ProfileSettingsView()) {
                 HStack {
-                    Image(systemName: "person.fill")
+                    SwiftUI.Image(systemName: "person.fill")
                     Text("Profile")
                 }
             }
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: AppearanceSettingsView()) {
                 HStack {
-                    Image(systemName: "square.grid.2x2")
+                    SwiftUI.Image(systemName: "square.grid.2x2")
                     Text("Appearance")
                 }
             }
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: BehaviorSettingsView()) {
                 HStack {
-                    Image(systemName: "arrow.triangle.turn.up.right.diamond.fill")
+                    SwiftUI.Image(systemName: "arrow.triangle.turn.up.right.diamond.fill")
                     Text("Behavior")
                 }
             }
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: SoundsSettingsView()) {
                 HStack {
-                    Image(systemName: "speaker.wave.2.fill")
+                    SwiftUI.Image(systemName: "speaker.wave.2.fill")
                     Text("Sounds")
                 }
             }
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: BrAPISettingsView()) {
                 HStack {
-                    Image(systemName: "externaldrive.connected.to.line.below.fill")
+                    SwiftUI.Image(systemName: "externaldrive.connected.to.line.below.fill")
                     Text("BrAPI")
                 }
             }
-            NavigationLink(destination: EmptyView()) {
+            NavigationLink(destination: DatabaseSettingsView()) {
                 HStack {
-                    Image(systemName: "server.rack")
+                    SwiftUI.Image(systemName: "cylinder.split.1x2.fill")
                     Text("Database")
                 }
             }
         }.listStyle(.plain)
             .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
 

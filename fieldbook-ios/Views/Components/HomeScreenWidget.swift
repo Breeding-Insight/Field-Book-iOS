@@ -22,7 +22,7 @@ struct HomeScreenWidget: View {
                     .fill(Color.white)
                     .shadow(radius: 1)
                     .frame(width: 75, height: 75)
-                Image(self.icon)
+                SwiftUI.Image(self.icon)
                     .frame(width: 50, height: 50)
             }
             Text(self.label)

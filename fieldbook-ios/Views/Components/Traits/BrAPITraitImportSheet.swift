@@ -23,12 +23,12 @@ struct BrAPITriatImportSheet: View {
                     HStack {
                         Text("Plant Height")
                         Spacer()
-                        Image(systemName: "square")
+                        SwiftUI.Image(systemName: "square")
                     }
                     HStack {
                         Text("Leaf Shape")
                         Spacer()
-                        Image(systemName: "checkmark.square")
+                        SwiftUI.Image(systemName: "checkmark.square")
                     }
                 }.listStyle(.plain)
                 Spacer()
@@ -42,7 +42,7 @@ struct BrAPITriatImportSheet: View {
             })
             .navigationBarItems(trailing: Button(action: {
             }) {
-                Image(systemName: "checkmark.square.fill")
+                SwiftUI.Image(systemName: "checkmark.square.fill")
             })
         }
     }

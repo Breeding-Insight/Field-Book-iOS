@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
-        "package": "Alamofire",
-        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "package": "RadioGroup",
+        "repositoryURL": "https://github.com/yonat/RadioGroup",
         "state": {
           "branch": null,
-          "revision": "d120af1e8638c7da36c8481fd61a66c0c08dc4fc",
-          "version": "5.4.4"
+          "revision": "c2ce6b275fbd8ef970f85349d03e7ea0615ed495",
+          "version": "1.4.4"
+        }
+      },
+      {
+        "package": "SweeterSwift",
+        "repositoryURL": "https://github.com/yonat/SweeterSwift",
+        "state": {
+          "branch": null,
+          "revision": "23997b3f33cc213a9fb15064c609bf29787c0653",
+          "version": "1.2.0"
         }
       },
       {

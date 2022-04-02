@@ -1,0 +1,49 @@
+//
+//  PreferenceConstants.swift
+//  fieldbook-ios
+//
+//  Created by Tim Parsons on 2/12/22.
+//
+
+import Foundation
+
+struct PreferenceConstants {
+    static let DEFAULT_IMPORT_SOURCE = "DEFAULT_IMPORT_SOURCE"
+    static let DEFAULT_EXPORT_SOURCE = "DEFAULT_EXPORT_SOURCE"
+    static let NEXT_ENTRY_NO_DATA = "NEXT_ENTRY_NO_DATA"
+    static let MOVE_VIA_BARCODE = "MOVE_VIA_BARCODE"
+    static let DATAGRID_DISPLAY = "DATAGRID_DISPLAY"
+    static let MOVE_UNIQUE_ID = "MOVE_UNIQUE_ID"
+    static let PROFILE_GIVENNAME = "PROFILE_GIVENNAME"
+    static let PROFILE_SURNAME = "PROFILE_SURNAME"
+    static let PROFILE_LATITUDE = "PROFILE_LATITUDE"
+    static let PROFILE_LONGITUDE = "PROFILE_LONGITUDE"
+    static let VERIFY_PROFILE = "VERIFY_PROFILE"
+    static let APP_THEME = "APP_THEME"
+    static let APP_LANG = "APP_LANG"
+    static let SHOW_TUTORIALS = "SHOW_TUTORIALS"
+    static let CUSTOM_TOOLBAR_SEARCH = "CUSTOM_TOOLBAR_SEARCH"
+    static let CUSTOM_TOOLBAR_RESOURCES = "CUSTOM_TOOLBAR_RESOURCES"
+    static let CUSTOM_TOOLBAR_SUMMARY = "CUSTOM_TOOLBAR_SUMMARY"
+    static let CUSTOM_TOOLBAR_LOCK = "CUSTOM_TOOLBAR_LOCK"
+    static let NUM_INFO_BARS = "NUM_INFO_BARS"
+    static let CYCLE_ADVANCE_ENTRY = "CYCLE_ADVANCE_ENTRY"
+    static let VOLUME_ENTRY_NAV = "VOLUME_ENTRY_NAV"
+    static let RETURN_KEY_NAV = "RETURN_KEY_NAV"
+    static let DISABLE_ENTRY_NO_DATA = "DISABLE_ENTRY_NO_DATA"
+    static let DISABLE_FILE_SHARE = "DISABLE_FILE_SHARE"
+    static let DAY_OF_YEAR = "DAY_OF_YEAR"
+    static let SKIP_ENTRIES = "SKIP_ENTRIES"
+    static let FLIP_ARROWS = "FLIP_ARROWS"
+    static let PRIMARY_ORDER_SOUND = "PRIMARY_ORDER_SOUND"
+    static let ENTRY_NAV_SOUND = "ENTRY_NAV_SOUND"
+    static let CYCLE_TRAIT_SOUND = "CYCLE_TRAIT_SOUND"
+    static let BRAPI_URL = "BRAPI_URL"
+    static let BRAPI_TOKEN = "BRAPI_TOKEN"
+    static let BRAPI_VERSION = "BRAPI_VERSION"
+    static let BRAPI_PAGE_SIZE = "BRAPI_PAGE_SIZE"
+    static let BRAPI_TIMEOUT = "BRAPI_TIMEOUT"
+    static let BRAPI_OIDC_FLOW = "BRAPI_OIDC_FLOW"
+    static let BRAPI_OIDC_URL = "BRAPI_OIDC_URL"
+    static let BRAPI_LABEL_DISPLAY = "BRAPI_LABEL_DISPLAY"
+}

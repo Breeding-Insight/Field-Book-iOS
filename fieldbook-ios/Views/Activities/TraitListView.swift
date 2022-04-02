@@ -19,9 +19,9 @@ struct TraitListView: View {
     
     var body: some View {
         List {
-            Trait(name:"Trait A")
-            Trait(name:"Trait B")
-            Trait(name:"Trait C")
+            TraitListItem(name:"Trait A")
+            TraitListItem(name:"Trait B")
+            TraitListItem(name:"Trait C")
             //todo get fields from internal database
         }
         .navigationTitle("Traits")
@@ -30,7 +30,7 @@ struct TraitListView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action:{showingImportAction = true}, label: {
-                    Image(systemName: "plus.circle.fill").foregroundColor(.black)
+                    SwiftUI.Image(systemName: "plus.circle.fill").foregroundColor(.black)
                 }).actionSheet(isPresented: $showingImportAction) {
                     ActionSheet(title: Text("Add Trait"), buttons: [
                         .cancel { },
@@ -54,7 +54,7 @@ struct TraitListView: View {
     }
 }
 
-private struct Trait: View {
+private struct TraitListItem: View {
     @State private var showingAction = false
     @State private var showingDeleteAlert = false
     @State private var showingSortSheet = false
@@ -65,7 +65,7 @@ private struct Trait: View {
             Text(self.name)
             Spacer()
             Button(action:{showingAction = true}, label: {
-                Image(systemName: "ellipsis").rotationEffect(.degrees(90))
+                SwiftUI.Image(systemName: "ellipsis").rotationEffect(.degrees(90))
             })
                 .alert("Delete Trait?", isPresented: $showingDeleteAlert) {
                     Button("No", role:.cancel) { }
