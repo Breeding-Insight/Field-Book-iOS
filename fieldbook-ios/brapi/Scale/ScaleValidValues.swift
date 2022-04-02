@@ -12,13 +12,13 @@ import Foundation
 public struct ScaleValidValues: Codable {
 
     /** List of possible values with optional labels */
-    public var categories: [ScaleBaseClassValidValuesCategories]?
+    public var categories: [ScaleCategories]?
     /** Maximum value (used for field data capture control). */
     public var max: Int?
     /** Minimum value (used for data capture control) for numerical and date scales */
     public var min: Int?
 
-    public init(categories: [ScaleBaseClassValidValuesCategories]? = nil, max: Int? = nil, min: Int? = nil) {
+    public init(categories: [ScaleCategories]? = nil, max: Int? = nil, min: Int? = nil) {
         self.categories = categories
         self.max = max
         self.min = min

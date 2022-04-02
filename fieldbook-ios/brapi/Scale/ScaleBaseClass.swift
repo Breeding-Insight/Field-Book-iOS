@@ -32,9 +32,9 @@ public struct ScaleBaseClass: Codable {
     public var ontologyReference: OntologyReference?
     /** Name of the scale  MIAPPE V1.1 (DM-92) Scale Name of the scale associated with the variable */
     public var scaleName: String
-    public var validValues: ScaleBaseClassValidValues?
+    public var validValues: ScaleValidValues?
 
-    public init(additionalInfo: [String:String]? = nil, dataType: DataType? = nil, decimalPlaces: Int? = nil, externalReferences: [ExternalReferencesInner]? = nil, ontologyReference: OntologyReference? = nil, scaleName: String, validValues: ScaleBaseClassValidValues? = nil) {
+    public init(additionalInfo: [String:String]? = nil, dataType: DataType? = nil, decimalPlaces: Int? = nil, externalReferences: [ExternalReferencesInner]? = nil, ontologyReference: OntologyReference? = nil, scaleName: String, validValues: ScaleValidValues? = nil) {
         self.additionalInfo = additionalInfo
         self.dataType = dataType
         self.decimalPlaces = decimalPlaces
