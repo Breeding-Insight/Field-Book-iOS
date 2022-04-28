@@ -9,7 +9,7 @@ import SwiftUI
 import WrappingHStack
 
 struct NominalScale: View {
-    var options: [ScaleCategories]
+    var options: [BrAPIScaleCategories]
     @Binding var selected: String
     
     var body: some View {
@@ -39,6 +39,6 @@ struct NominalScale: View {
 struct NominalScale_Previews: PreviewProvider {
     static var previews: some View {
 //        NominalScale(options: ["1sdfasdfasdf", "2asdfasdf", "3asdfasdf", "4asdfasdf"], selected: .constant("1sdfasdfasdf"))
-        NominalScale(options: [ScaleCategories(value:"1sdfasdfasdf"), ScaleCategories(value:"2asdfasdf"), ScaleCategories(value:"3asdfasdf"), ScaleCategories(value:"4asdfasdf")], selected: .constant("1sdfasdfasdf"))
+        NominalScale(options: [BrAPIScaleCategories(value:"1sdfasdfasdf"), BrAPIScaleCategories(value:"2asdfasdf"), BrAPIScaleCategories(value:"3asdfasdf"), BrAPIScaleCategories(value:"4asdfasdf")], selected: .constant("1sdfasdfasdf"))
     }
 }

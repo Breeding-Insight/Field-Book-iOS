@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct CollectView: View {
-    @State private var observationUnits: [ObservationUnit] = [
-        ObservationUnit(observationUnitDbId: "1", observationUnitName: "PLOT-1", observationUnitPosition: ObservationUnitPosition( positionCoordinateX: "1", positionCoordinateXType:.gridCol, positionCoordinateY: "1", positionCoordinateYType:.gridRow)),
-        ObservationUnit(observationUnitDbId: "2", observationUnitName: "PLOT-2", observationUnitPosition: ObservationUnitPosition( positionCoordinateX: "1", positionCoordinateXType:.gridCol, positionCoordinateY: "2", positionCoordinateYType:.gridRow)),
-        ObservationUnit(observationUnitDbId: "3", observationUnitName: "PLOT-3", observationUnitPosition: ObservationUnitPosition( positionCoordinateX: "1", positionCoordinateXType:.gridCol, positionCoordinateY: "3", positionCoordinateYType:.gridRow))
+    @State private var observationUnits: [BrAPIObservationUnit] = [
+        BrAPIObservationUnit(observationUnitDbId: "1", observationUnitName: "PLOT-1", observationUnitPosition: BrAPIObservationUnitPosition( positionCoordinateX: "1", positionCoordinateXType:.gridCol, positionCoordinateY: "1", positionCoordinateYType:.gridRow)),
+        BrAPIObservationUnit(observationUnitDbId: "2", observationUnitName: "PLOT-2", observationUnitPosition: BrAPIObservationUnitPosition( positionCoordinateX: "1", positionCoordinateXType:.gridCol, positionCoordinateY: "2", positionCoordinateYType:.gridRow)),
+        BrAPIObservationUnit(observationUnitDbId: "3", observationUnitName: "PLOT-3", observationUnitPosition: BrAPIObservationUnitPosition( positionCoordinateX: "1", positionCoordinateXType:.gridCol, positionCoordinateY: "3", positionCoordinateYType:.gridRow))
     ]
-    @State private var traits: [ObservationVariable] = [
-        ObservationVariable(observationVariableDbId:"1", observationVariableName: "Plant Height", scale: Scale(dataType:.numerical)),
-        ObservationVariable(observationVariableDbId:"2", observationVariableName: "Leaf Width", scale: Scale(dataType:.numerical)),
-        ObservationVariable(observationVariableDbId:"3", observationVariableName: "Leaf Color", scale: Scale(dataType:.nominal, validValues: ScaleValidValues(categories:[ScaleCategories(value: "orange"),ScaleCategories(value: "yellow"),ScaleCategories(value: "green")]))),
-        ObservationVariable(observationVariableDbId:"4", observationVariableName: "Flowering Date", scale: Scale(dataType:.date)),
-        ObservationVariable(observationVariableDbId:"5", observationVariableName: "Notes", scale: Scale(dataType:.text))
+    @State private var traits: [BrAPIObservationVariable] = [
+        BrAPIObservationVariable(observationVariableDbId:"1", observationVariableName: "Plant Height", scale: BrAPIScale(dataType:.numerical)),
+        BrAPIObservationVariable(observationVariableDbId:"2", observationVariableName: "Leaf Width", scale: BrAPIScale(dataType:.numerical)),
+        BrAPIObservationVariable(observationVariableDbId:"3", observationVariableName: "Leaf Color", scale: BrAPIScale(dataType:.nominal, validValues: BrAPIScaleValidValues(categories:[BrAPIScaleCategories(value: "orange"),BrAPIScaleCategories(value: "yellow"),BrAPIScaleCategories(value: "green")]))),
+        BrAPIObservationVariable(observationVariableDbId:"4", observationVariableName: "Flowering Date", scale: BrAPIScale(dataType:.date)),
+        BrAPIObservationVariable(observationVariableDbId:"5", observationVariableName: "Notes", scale: BrAPIScale(dataType:.text))
     ]
     
     @State private var infoBar1: String = "Field Name"
@@ -28,7 +28,7 @@ struct CollectView: View {
     @State private var currentTrait: Int = 0
     @State private var currentObsvUnit: Int = 0
     
-    @State private var currentObservation: Observation = Observation()
+    @State private var currentObservation: BrAPIObservation = BrAPIObservation()
     @State private var currentVal: String = ""
     
     var body: some View {
@@ -184,12 +184,14 @@ struct CollectView: View {
         let currentTraitId = self.traits[currentTrait].observationVariableDbId
         let currentOU = self.observationUnits[currentObsvUnit]
         
-        var trait: Observation = Observation(observationUnitDbId:currentTraitId)
+        var trait: BrAPIObservation = BrAPIObservation(observationUnitDbId:currentTraitId)
         
-        for observation in currentOU.observations {
-            if(observation.observationUnitDbId == currentTraitId) {
-                trait = observation
-                print("found existing val: " + (trait.value ?? "<no val>"))
+        if(currentOU.observations != nil) {
+            for observation in currentOU.observations! {
+                if(observation.observationUnitDbId == currentTraitId) {
+                    trait = observation
+                    print("found existing val: " + (trait.value ?? "<no val>"))
+                }
             }
         }
         
@@ -201,19 +203,21 @@ struct CollectView: View {
         let currentOU = self.observationUnits[currentObsvUnit]
         
         var hasTrait = false;
-        for obsvIdx in 0..<currentOU.observations.count {
-            if(currentOU.observations[obsvIdx].observationUnitDbId == currentTraitId) {
-                self.observationUnits[currentObsvUnit].observations[obsvIdx].value = self.currentVal
-                hasTrait = true
-                print("updated observation val: " + self.currentVal)
+        if(currentOU.observations != nil) {
+            for obsvIdx in 0..<currentOU.observations!.count {
+                if(currentOU.observations![obsvIdx].observationUnitDbId == currentTraitId) {
+                    self.observationUnits[currentObsvUnit].observations![obsvIdx].value = self.currentVal
+                    hasTrait = true
+                    print("updated observation val: " + self.currentVal)
+                }
             }
         }
         
         if(!hasTrait && self.currentVal.trimmingCharacters(in: .whitespacesAndNewlines).count > 0) {
             print("saving new observation val: " + self.currentVal)
-            self.observationUnits[currentObsvUnit].observations.append(Observation(observationUnitDbId:currentTraitId, value: self.currentVal))
-            print(currentOU.observations)
-            print(self.observationUnits[currentObsvUnit].observations)
+            self.observationUnits[currentObsvUnit].observations!.append(BrAPIObservation(observationUnitDbId:currentTraitId, value: self.currentVal))
+            print(currentOU.observations!)
+            print(self.observationUnits[currentObsvUnit].observations!)
         }
         
         

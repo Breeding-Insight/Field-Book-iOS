@@ -9,7 +9,7 @@ import SwiftUI
 import WrappingHStack
 
 struct OrdinalScale: View {
-    var options: [ScaleCategories]
+    var options: [BrAPIScaleCategories]
     @Binding var selected: String
     
     var body: some View {
@@ -38,6 +38,6 @@ struct OrdinalScale: View {
 
 struct OrdinalScale_Previews: PreviewProvider {
     static var previews: some View {
-        OrdinalScale(options: [ScaleCategories(value:"1sdfasdfasdf"), ScaleCategories(value:"2asdfasdf"), ScaleCategories(value:"3asdfasdf"), ScaleCategories(value:"4asdfasdf")], selected: .constant("1sdfasdfasdf"))
+        OrdinalScale(options: [BrAPIScaleCategories(value:"1sdfasdfasdf"), BrAPIScaleCategories(value:"2asdfasdf"), BrAPIScaleCategories(value:"3asdfasdf"), BrAPIScaleCategories(value:"4asdfasdf")], selected: .constant("1sdfasdfasdf"))
     }
 }

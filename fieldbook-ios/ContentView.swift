@@ -31,6 +31,18 @@ struct ContentView: View {
         UIToolbar.appearance().scrollEdgeAppearance = coloredToolbarAppearance
         
         UIToolbar.appearance().tintColor = .black
+        
+        guard let database = Database.instance else {
+            fatalError("could not setup database")
+        }
+        
+        do {
+            try database.migrateIfNeeded()
+        } catch {
+            fatalError("failed to migrate database: \(error)")
+        }
+        
+        print(database)
     }
     
     var body: some View {

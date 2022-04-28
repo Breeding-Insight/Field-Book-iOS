@@ -1,34 +1,59 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "RadioGroup",
-        "repositoryURL": "https://github.com/yonat/RadioGroup",
-        "state": {
-          "branch": null,
-          "revision": "c2ce6b275fbd8ef970f85349d03e7ea0615ed495",
-          "version": "1.4.4"
-        }
-      },
-      {
-        "package": "SweeterSwift",
-        "repositoryURL": "https://github.com/yonat/SweeterSwift",
-        "state": {
-          "branch": null,
-          "revision": "23997b3f33cc213a9fb15064c609bf29787c0653",
-          "version": "1.2.0"
-        }
-      },
-      {
-        "package": "WrappingHStack",
-        "repositoryURL": "https://github.com/dkk/WrappingHStack",
-        "state": {
-          "branch": null,
-          "revision": "3cc84e786aa996da32f476d89dab4e02d30ce691",
-          "version": "2.1.3"
-        }
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "ce5be6fbc6f51414c49f56fc8e2b7c99253d9f8e",
+        "version" : "4.9.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "radiogroup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yonat/RadioGroup",
+      "state" : {
+        "revision" : "c2ce6b275fbd8ef970f85349d03e7ea0615ed495",
+        "version" : "1.4.4"
+      }
+    },
+    {
+      "identity" : "sqlite.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/stephencelis/SQLite.swift.git",
+      "state" : {
+        "revision" : "4d543d811ee644fa4cc4bfa0be996b4dd6ba0f54",
+        "version" : "0.13.3"
+      }
+    },
+    {
+      "identity" : "sqlitemigrationmanager.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/garriguv/SQLiteMigrationManager.swift.git",
+      "state" : {
+        "revision" : "edd732911cde57d9674e364a4796af775c977c7d",
+        "version" : "0.8.0"
+      }
+    },
+    {
+      "identity" : "sweeterswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yonat/SweeterSwift",
+      "state" : {
+        "revision" : "23997b3f33cc213a9fb15064c609bf29787c0653",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "wrappinghstack",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dkk/WrappingHStack",
+      "state" : {
+        "revision" : "3cc84e786aa996da32f476d89dab4e02d30ce691",
+        "version" : "2.1.3"
+      }
+    }
+  ],
+  "version" : 2
 }
