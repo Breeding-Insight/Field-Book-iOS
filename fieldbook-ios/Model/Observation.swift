@@ -9,10 +9,10 @@ import Foundation
 
 class Observation: ObservableObject {
     
-    public var internalId: Int?
-    public var observationUnitId: String?
-    public var studyId: Int?
-    public var observationVariableId: Int?
+    public var internalId: Int64?
+    public var observationUnitId: Int64?
+    public var studyId: Int64?
+    public var observationVariableId: Int64?
     public var observationVariableName: String?
     public var observationVariableFieldBookFormat: String?
     @Published public var value: String?

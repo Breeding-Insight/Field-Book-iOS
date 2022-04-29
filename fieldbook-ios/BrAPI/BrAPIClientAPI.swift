@@ -13,8 +13,7 @@ open class BrAPIClientAPI {
     public static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
     
     init(credential: URLCredential? = nil, customHeaders:[String:String]? = nil) {
-//        self.basePath = UserDefaults.standard.string(forKey: PreferenceConstants.BRAPI_URL) ?? "https://test-server.brapi.org"
-        self.basePath = "https://test-server.brapi.org/brapi/v2"
+        self.basePath = SettingsUtilities.getBrAPIUrl()
         self.credential = credential
         self.customHeaders = customHeaders ?? [:]
     }

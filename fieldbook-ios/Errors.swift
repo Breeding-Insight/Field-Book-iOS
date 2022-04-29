@@ -14,4 +14,5 @@ enum BrAPIError: Error {
 enum FieldBookError: Error {
     case daoError(message: String?)
     case serviceError(message: String?)
+    case nameConflictError(message: String?)
 }

@@ -41,16 +41,21 @@ class StudyService {
                 }
                 
                 if(!study.observationVariables.isEmpty) {
-                    var savedVariables : [ObservationVariable] = []
+                    var savedVariables : Set<ObservationVariable> = []
                     for variable in study.observationVariables {
-                        savedVariables.append(try observationVariableDAO.saveObservationVariable(variable)!)
+                        do {
+                            savedVariables.insert(try observationVariableDAO.saveObservationVariable(variable)!)
+                        } catch FieldBookError.nameConflictError {
+                            print("variable already exists, fetching existing variable")
+                            savedVariables.insert(try observationVariableDAO.getObservationVariableByName(variable.name)!)
+                        }
                     }
                     
-                    if(savedVariables.count != study.observationVariables.count) {
-                        throw FieldBookError.serviceError(message: "Some observationVariables were not saved")
-                    } else {
-                        savedStudy?.observationVariables = savedVariables
-                    }
+                    //                    if(savedVariables.count != study.observationVariables.count) {
+                    //                        throw FieldBookError.serviceError(message: "Some observationVariables were not saved")
+                    //                    } else {
+                    savedStudy?.observationVariables = Array(savedVariables)
+                    //                    }
                 }
             }
             return savedStudy
@@ -65,6 +70,15 @@ class StudyService {
             
             study?.observationUnits = try observationUnitDAO.getObservationUnits(studyId: internalId)
             
+            return study
+        } catch let FieldBookError.daoError(message) {
+            throw FieldBookError.serviceError(message: message)
+        }
+    }
+    
+    func getStudyByName(_ name: String) throws -> Study? {
+        do {
+            let study = try studyDAO.getStudyByName(name)
             return study
         } catch let FieldBookError.daoError(message) {
             throw FieldBookError.serviceError(message: message)
@@ -102,5 +116,41 @@ class StudyService {
         }
         
         return deletedCount
+    }
+    
+    func setActiveStudy(_ studyId: Int64?) throws {
+        let observationUnitPropertyTableName = "ObservationUnitProperty"
+        do {
+            try database.db.transaction {
+                try database.db.execute("DROP TABLE IF EXISTS \(observationUnitPropertyTableName)")
+
+                if let studyId = studyId {
+                    let observationUnitAttrs = try observationUnitDAO.getObservationUnitAttributes(studyId)
+                    
+                    let selects = observationUnitAttrs.map{ attr in
+                        return "MAX(CASE WHEN attr.observation_unit_attribute_name = '\(attr.attributeName)' THEN vals.observation_unit_value_name ELSE NULL END) AS \"\(attr.attributeName)\""
+                    }
+                    
+                    var selectStmt = ""
+                    if(!selects.isEmpty) {
+                        selectStmt = ", " + selects.joined(separator: ", ")
+                    }
+                    
+                    let query = """
+                    CREATE TABLE IF NOT EXISTS \(observationUnitPropertyTableName) AS
+                    SELECT units.\(ObservationUnitsTable.INTERNAL_ID_OBSERVATION_UNIT.getName) AS id \(selectStmt)
+                    FROM \(ObservationUnitsTable.TABLE.getName) AS units
+                    LEFT JOIN \(ObservationUnitValuesTable.TABLE.getName) AS vals ON units.\(ObservationUnitsTable.INTERNAL_ID_OBSERVATION_UNIT.getName) = vals.\(ObservationUnitValuesTable.OBSERVATION_UNIT_ID.getName)
+                    LEFT JOIN \(ObservationUnitAttributesTable.TABLE.getName) AS attr on vals.\(ObservationUnitValuesTable.OBSERVATION_UNIT_ATTRIBUTE_DB_ID.getName) = attr.\(ObservationUnitAttributesTable.INTERNAL_ID_OBSERVATION_UNIT_ATTRIBUTE.getName)
+                    WHERE units.\(ObservationUnitsTable.STUDY_ID.getName) = ?
+                    GROUP BY units.\(ObservationUnitsTable.INTERNAL_ID_OBSERVATION_UNIT.getName)
+                    """
+                    
+                    try database.db.run(query, studyId)
+                }
+            }
+        } catch let FieldBookError.daoError(message) {
+            throw FieldBookError.serviceError(message: message)
+        }
     }
 }

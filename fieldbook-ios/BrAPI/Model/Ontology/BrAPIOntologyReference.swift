@@ -20,6 +20,13 @@ public struct BrAPIOntologyReference: Codable {
     public var ontologyName: String
     /** Ontology version (no specific format) */
     public var version: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case documentationLinks
+        case ontologyDbId
+        case ontologyName
+        case version
+    }
 
     public init(documentationLinks: [BrAPIOntologyReferenceDocumentationLinks]? = nil, ontologyDbId: String, ontologyName: String, version: String? = nil) {
         self.documentationLinks = documentationLinks
@@ -28,5 +35,25 @@ public struct BrAPIOntologyReference: Codable {
         self.version = version
     }
 
-
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        do {
+            documentationLinks = try container.decode([BrAPIOntologyReferenceDocumentationLinks].self, forKey: .documentationLinks)
+        } catch DecodingError.valueNotFound {
+            documentationLinks = nil
+        }
+        do {
+            ontologyDbId = try container.decode(String.self, forKey: .ontologyDbId)
+        } catch DecodingError.typeMismatch {
+            ontologyDbId = try String(container.decode(Int.self, forKey: .ontologyDbId))
+        }
+        do {
+            ontologyName = try container.decode(String.self, forKey: .ontologyName)
+        }
+        do {
+            version = try container.decode(String.self, forKey: .version)
+        } catch DecodingError.valueNotFound {
+            version = nil
+        }
+    }
 }

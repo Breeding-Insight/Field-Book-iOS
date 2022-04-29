@@ -47,3 +47,7 @@ struct PreferenceConstants {
     static let BRAPI_OIDC_URL = "BRAPI_OIDC_URL"
     static let BRAPI_LABEL_DISPLAY = "BRAPI_LABEL_DISPLAY"
 }
+
+struct AppConstants {
+    static let SELECTED_STUDY_ID = "SELECTED_STUDY_ID"
+}

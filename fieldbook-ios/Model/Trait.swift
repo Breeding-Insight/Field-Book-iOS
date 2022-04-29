@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Trait {
+class Trait: Codable {
     
     public var internalId: Int?
     public var externalDbId: String?

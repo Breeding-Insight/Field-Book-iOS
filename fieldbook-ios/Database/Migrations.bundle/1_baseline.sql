@@ -55,7 +55,8 @@ create table observation_variable_values
     internal_id_observation_variable_value INTEGER
         primary key autoincrement,
     observation_variable_attribute_db_id   INTEGER
-        references observation_variable_attributes,
+        references observation_variable_attributes
+            on delete cascade,
     observation_variable_attribute_value   TEXT,
     observation_variable_db_id             INTEGER
         references observation_variables
@@ -66,13 +67,18 @@ create table observations
 (
     internal_id_observation                INTEGER
         primary key autoincrement,
-    observation_unit_id                    TEXT,
-    study_id                               INTEGER,
-    observation_variable_db_id             INTEGER,
+    observation_unit_id                    TEXT
+        references observation_units,
+    study_id                               INTEGER
+        references study
+            on delete cascade,
+    observation_variable_db_id             INTEGER
+        references observation_variables
+            on delete cascade,
     observation_variable_name              TEXT,
     observation_variable_field_book_format TEXT,
     value                                  TEXT,
-    observation_time_stamp                 TEXT,
+    observation_time_stamp                 TIMESTAMP,
     collector                              TEXT,
     geoCoordinates                         TEXT,
     observation_db_id                      TEXT,
@@ -133,7 +139,7 @@ create table studies
     experimental_design     Text,
     common_crop_name        Text,
     study_sort_name         Text,
-    date_import             Text,
+    date_import             TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_edit               Text,
     date_export             Text,
     study_source            Text,
@@ -189,9 +195,12 @@ create table observation_units_values
     internal_id_observation_unit_value INTEGER
         primary key autoincrement,
     observation_unit_attribute_db_id   INTEGER
-        references observation_units_attributes,
+        references observation_units_attributes
+            on delete cascade,
     observation_unit_value_name        TEXT,
-    observation_unit_id                INTEGER,
+    observation_unit_id                INTEGER
+        references observation_units
+            on delete cascade,
     study_id                           INTEGER
         references studies
             on delete cascade

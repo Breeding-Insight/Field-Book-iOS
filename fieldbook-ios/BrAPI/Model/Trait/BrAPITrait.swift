@@ -36,6 +36,22 @@ public struct BrAPITrait: Codable {
     public var traitDescription: String?
     /** The human readable name of a trait  MIAPPE V1.1 (DM-86) Trait - Name of the (plant or environmental) trait under observation */
     public var traitName: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case additionalInfo
+        case alternativeAbbreviations
+        case attribute
+        case entity
+        case externalReferences
+        case mainAbbreviation
+        case ontologyReference
+        case status
+        case synonyms
+        case traitClass
+        case traitDbId
+        case traitDescription
+        case traitName
+    }
 
     public init(additionalInfo: [String:String]? = nil, alternativeAbbreviations: [String]? = nil, attribute: String? = nil, entity: String? = nil, externalReferences: [BrAPIExternalReferencesInner]? = nil, mainAbbreviation: String? = nil, ontologyReference: BrAPIOntologyReference? = nil, status: String? = nil, synonyms: [String]? = nil, traitClass: String? = nil, traitDbId: String? = nil, traitDescription: String? = nil, traitName: String? = nil) {
         self.additionalInfo = additionalInfo
@@ -53,5 +69,76 @@ public struct BrAPITrait: Codable {
         self.traitName = traitName
     }
 
-
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        do {
+            additionalInfo = try container.decode([String:String].self, forKey:.additionalInfo)
+        } catch DecodingError.valueNotFound {
+            additionalInfo = nil
+        } catch DecodingError.keyNotFound {
+            additionalInfo = nil
+        }
+        do {
+            alternativeAbbreviations = try container.decode([String].self, forKey:.alternativeAbbreviations)
+        } catch DecodingError.valueNotFound {
+            alternativeAbbreviations = nil
+        }
+        do {
+            attribute = try container.decode(String.self, forKey:.attribute)
+        } catch DecodingError.valueNotFound {
+            attribute = nil
+        }
+        do {
+            entity = try container.decode(String.self, forKey:.entity)
+        } catch DecodingError.valueNotFound {
+            entity = nil
+        }
+        do {
+            externalReferences = try container.decode([BrAPIExternalReferencesInner].self, forKey:.externalReferences)
+        } catch DecodingError.valueNotFound {
+            externalReferences = nil
+        }
+        do {
+            mainAbbreviation = try container.decode(String.self, forKey:.mainAbbreviation)
+        } catch DecodingError.valueNotFound {
+            mainAbbreviation = nil
+        }
+        do {
+            ontologyReference = try container.decode(BrAPIOntologyReference.self, forKey:.ontologyReference)
+        } catch DecodingError.valueNotFound {
+            ontologyReference = nil
+        }
+        do {
+            status = try container.decode(String.self, forKey:.status)
+        } catch DecodingError.valueNotFound {
+            status = nil
+        }
+        do {
+            synonyms = try container.decode([String].self, forKey:.synonyms)
+        } catch DecodingError.valueNotFound {
+            synonyms = nil
+        }
+        do {
+            traitClass = try container.decode(String.self, forKey:.traitClass)
+        } catch DecodingError.valueNotFound {
+            traitClass = nil
+        }
+        do {
+            traitDbId = try container.decode(String.self, forKey:.traitDbId)
+        } catch DecodingError.typeMismatch {
+            traitDbId = try String(container.decode(Int.self, forKey: .traitDbId))
+        }  catch DecodingError.valueNotFound {
+            traitDbId = nil
+        }
+        do {
+            traitDescription = try container.decode(String.self, forKey:.traitDescription)
+        } catch DecodingError.valueNotFound {
+            traitDescription = nil
+        }
+        do {
+            traitName = try container.decode(String.self, forKey:.traitName)
+        } catch DecodingError.valueNotFound {
+            traitName = nil
+        }
+    }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserTrait {
+class UserTrait: Codable {
     
     public var internalId: Int?
     public var rid: String?

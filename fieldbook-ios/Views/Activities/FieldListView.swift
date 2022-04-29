@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FieldListView: View {
+    @EnvironmentObject private var appState: AppState
     @State private var showingImportAction = false
     @State private var studies: [Study] = []
     @State private var loadingStudies = true
@@ -16,9 +17,9 @@ struct FieldListView: View {
     private let studyService = InjectionProvider.getStudyService()
     
     enum SheetContent {
-            case brapi, file, newField
-        }
-        
+        case brapi, file, newField
+    }
+    
     @State private var sheetContent: SheetContent = .brapi
     @State private var showSheet = false
     
@@ -29,11 +30,25 @@ struct FieldListView: View {
                     if(studies.isEmpty) {
                         Text("No fields currently exist, press the ") + Text(Image(systemName: "plus.circle.fill")).foregroundColor(.black)  + Text(" to get started")
                     } else {
+                        Text("Select a field to collect data for").padding(.top)
                         List {
                             ForEach(studies, id: \.self.internalId) { study in
                                 FieldListItem(study: study, selectedStudy: selectedStudy, selectedAction: {(listStudy) in
-                                    self.selectedStudy = listStudy
-                                }, deleteSuccess: {
+                                    self.selectedStudy.internalId = listStudy.internalId
+                                    SettingsUtilities.setCurrentStudyId(self.selectedStudy.internalId!)
+                                    appState.currentStudyId = self.selectedStudy.internalId!
+                                    Task {
+                                        await self.setActiveStudy()
+                                    }
+                                }, deleteSuccess: {(listStudy) in
+                                    if(listStudy.internalId == selectedStudy.internalId) {
+                                        selectedStudy.internalId = nil
+                                        SettingsUtilities.setCurrentStudyId(nil)
+                                        appState.currentStudyId = nil
+                                        Task {
+                                            await self.setActiveStudy()
+                                        }
+                                    }
                                     Task {
                                         await self.fetchStoredStudies()
                                     }
@@ -65,9 +80,9 @@ struct FieldListView: View {
                                 }
                             }, content: {
                                 switch sheetContent {
-                                    case .brapi: BrapiStudyImportSheet(sheetName: "BrAPI")
-                                    case .file: SheetView(sheetName: "File")
-                                    case .newField: SheetView(sheetName: "New field")
+                                case .brapi: BrapiStudyImportSheet(sheetName: "BrAPI")
+                                case .file: SheetView(sheetName: "File")
+                                case .newField: SheetView(sheetName: "New field")
                                 }
                                 
                             })
@@ -89,6 +104,15 @@ struct FieldListView: View {
             //todo show error
         }
         self.loadingStudies = false
+    }
+    
+    private func setActiveStudy() async {
+        do {
+            try studyService.setActiveStudy(appState.currentStudyId)
+            print("active study set!")
+        } catch {
+            print("error setting active study: \(error.localizedDescription)")
+        }
     }
 }
 
@@ -117,48 +141,52 @@ struct FieldListItem: View {
     let study: Study
     @ObservedObject var selectedStudy: Study
     @State var selectedAction: (Study) -> Void
-    let deleteSuccess: () -> Void
+    let deleteSuccess: (Study) -> Void
     private let studyService = InjectionProvider.getStudyService()
     
     var body: some View {
         HStack {
-            Text(SwiftUI.Image(systemName: (selectedStudy.internalId == study.internalId! ? "record.circle" : "circle"))).onTapGesture {
+            Button(action:{
                 print("selecting study \(study.internalId!)")
                 self.selectedAction(self.study)
-            }
+            }, label: {
+                SwiftUI.Image(systemName: (selectedStudy.internalId == study.internalId! ? "record.circle" : "circle"))
+            })
             Text(self.study.name)
             Spacer()
             Text(SwiftUI.Image(systemName: "ellipsis")).rotationEffect(.degrees(90)).onTapGesture {
                 self.showingAction = true
             }
-                .alert("Delete Field?", isPresented: $showingDeleteAlert) {
-                    Button("No", role:.cancel) { }
-                    Button("Yes", role: .destructive) {
-                        Task {
-                            do {
-                                try await self.deleteStudy()
-                                self.deleteSuccess()
-                            }  catch let FieldBookError.serviceError(message) {
-                                print("error deleting study: \(String(describing: message))")
-                                self.deleteError = true
-                            }
+            .alert("Delete Field?", isPresented: $showingDeleteAlert) {
+                Button("No", role:.cancel) { }
+                Button("Yes", role: .destructive) {
+                    Task {
+                        do {
+                            try await self.deleteStudy()
+                            self.deleteSuccess(self.study)
+                        }  catch let FieldBookError.serviceError(message) {
+                            print("error deleting study: \(String(describing: message))")
+                            self.deleteError = true
                         }
                     }
                 }
-                .alert(isPresented: $deleteError) {
-                    Alert(title: Text("Error"),
-                              message: Text("Error removing study"),
-                              dismissButton: .default(Text("OK")))
-                }
-                .actionSheet(isPresented: $showingAction) {
-                    ActionSheet(title: Text("Edit Field"), buttons: [
-                        .cancel { },
-                        .default(Text("Update Sort"), action: {self.showingSortSheet = true}),
-                        .destructive(Text("Delete"), action: {self.showingDeleteAlert = true})
-                    ])
-                }.sheet(isPresented: $showingSortSheet) {
-                    SheetView(sheetName: "Sorting")
-                }
+            }
+            .alert(isPresented: $deleteError) {
+                Alert(title: Text("Error"),
+                      message: Text("Error removing study"),
+                      dismissButton: .default(Text("OK")))
+            }
+            .actionSheet(isPresented: $showingAction) {
+                ActionSheet(title: Text("Edit Field"), buttons: [
+                    .cancel { },
+                    .default(Text("Update Sort"), action: {self.showingSortSheet = true}),
+                    .destructive(Text("Delete"), action: {self.showingDeleteAlert = true})
+                ])
+            }.sheet(isPresented: $showingSortSheet) {
+                SheetView(sheetName: "Sorting")
+            }
+        }.onAppear() {
+            selectedStudy.internalId = SettingsUtilities.getCurrentStudyId()
         }
     }
     

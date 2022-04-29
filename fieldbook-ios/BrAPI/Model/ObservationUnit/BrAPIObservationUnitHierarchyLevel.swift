@@ -12,32 +12,35 @@ import Foundation
 
 public struct BrAPIObservationUnitHierarchyLevel: Codable {
     
-    public enum LevelName: String, Codable {
-        case study = "study"
-        case field = "field"
-        case entry = "entry"
-        case rep = "rep"
-        case block = "block"
-        case subBlock = "sub-block"
-        case plot = "plot"
-        case subPlot = "sub-plot"
-        case plant = "plant"
-        case pot = "pot"
-        case sample = "sample"
-        
-        func get() -> String {
-            switch self {
-            default:
-                return rawValue
-            }
-        }
-    }
+//    public enum LevelName: String, Codable {
+//        case study = "study"
+//        case field = "field"
+//        case entry = "entry"
+//        case rep = "rep"
+//        case replicate = "replicate"
+//        case block = "block"
+//        case subBlock = "sub-block"
+//        case plot = "plot"
+//        case subPlot = "sub-plot"
+//        case subplot = "subplot"
+//        case plant = "plant"
+//        case pot = "pot"
+//        case sample = "sample"
+//        case tissueSample = "tissue_sample"
+//        
+//        func get() -> String {
+//            switch self {
+//            default:
+//                return rawValue
+//            }
+//        }
+//    }
     /** A name for this level */
-    public var levelName: LevelName?
+    public var levelName: String?
     /** &#x60;levelOrder&#x60; defines where that level exists in the hierarchy of levels. &#x60;levelOrder&#x60;&#x27;s lower numbers are at the top of the hierarchy (ie field -&gt; 1) and higher numbers are at the bottom of the hierarchy (ie plant -&gt; 9). */
     public var levelOrder: Int?
     
-    public init(levelName: LevelName? = nil, levelOrder: Int? = nil) {
+    public init(levelName: String? = nil, levelOrder: Int? = nil) {
         self.levelName = levelName
         self.levelOrder = levelOrder
     }

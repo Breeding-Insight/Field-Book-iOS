@@ -12,7 +12,7 @@ struct BrapiStudyImportSheet: View {
     let sheetName: String
     private let brapiStudyService = InjectionProvider.getBrAPIStudyService()
     
-    @State private var selectedObservationLevel: String = BrAPIObservationUnitHierarchyLevel.LevelName.plot.get()
+    @State private var selectedObservationLevel: String = "plot"
     @State private var studies: [Study]?
     @State private var levels: [String]?
     @State private var studiesLoading = true
@@ -23,7 +23,7 @@ struct BrapiStudyImportSheet: View {
             VStack {
                 HStack {
                     Text("Base URL").bold().padding()
-                    Text("https://rel-test.breedinginsight.net/brapi/v2")
+                    Text(SettingsUtilities.getBrAPIUrl())
                     Spacer()
                 }
                 if(!levelsLoading) {
@@ -81,6 +81,7 @@ struct BrapiStudyImportSheet: View {
         do {
             self.levels = try await brapiStudyService.fetchAvailableObservationLevels()
         } catch {
+            print("Error fetching levels: \(error.localizedDescription)")
             //todo show an error
         }
         self.levelsLoading = false
@@ -96,6 +97,9 @@ struct BrAPIPreviewField: View {
     @State private var studyDetailsLoading = true
     @State private var savingStudy = false
     @State private var saveStudyError = false
+    @State private var saveStudyErrorMessage: String?
+    @State private var fetchStudyError = false
+    @State private var fetchStudyErrorMessage: String?
     
     private let brapiStudyService = InjectionProvider.getBrAPIStudyService()
     private let studyService = InjectionProvider.getStudyService()
@@ -130,36 +134,50 @@ struct BrAPIPreviewField: View {
                 Spacer()
             }
             if(!self.studyDetailsLoading) {
-                HStack {
-                    Text(self.selectedObservationLevel + ":").bold().padding()
-                    Text(String(self.studyDetails?.observationUnits.count ?? 0))
-                    Spacer()
-                }
-                HStack {
-                    Text("Traits:").bold().padding()
-                    Text(String(self.studyDetails?.observationVariables.count ?? 0))
-                    Spacer()
-                }
-                Spacer()
-                if(!saveStudyError) {
+                if(self.fetchStudyError) {
+                    Text("Error fetching details for study \"\(self.study.name)\"")
+                } else {
                     HStack {
-                        Spacer()
-                        Button("Save Field", action: {
-                            self.savingStudy = true
-                            Task {
-                                do {
-                                    try await self.saveField()
-                                    self.dismiss()
-                                } catch let FieldBookError.serviceError(message) {
-                                    print("error saving study: \(String(describing: message))")
-                                    self.saveStudyError = true
-                                }
-                            }
-                        }).buttonStyle(.borderedProminent).padding(.bottom).disabled(self.savingStudy)
+                        Text(self.selectedObservationLevel + ":").bold().padding()
+                        Text(String(self.studyDetails?.observationUnits.count ?? 0))
                         Spacer()
                     }
-                } else {
-                    Text("Error saving study \(self.study.name)")
+                    HStack {
+                        Text("Traits:").bold().padding()
+                        Text(String(self.studyDetails?.observationVariables.count ?? 0))
+                        Spacer()
+                    }
+                    Spacer()
+                    if(!saveStudyError) {
+                        HStack {
+                            Spacer()
+                            Button("Save Field", action: {
+                                self.savingStudy = true
+                                Task {
+                                    do {
+                                        try await self.saveField()
+                                        self.dismiss()
+                                    } catch let FieldBookError.serviceError(message) {
+                                        print("error saving study: \(String(describing: message))")
+                                        self.saveStudyError = true
+                                        self.saveStudyErrorMessage = nil
+                                    } catch let FieldBookError.nameConflictError(message) {
+                                        self.saveStudyError = true
+                                        self.saveStudyErrorMessage = message
+                                    }
+                                }
+                            }).buttonStyle(.borderedProminent).padding(.bottom).disabled(self.savingStudy)
+                            Spacer()
+                        }
+                    } else {
+                        HStack {
+                            if(self.saveStudyErrorMessage != nil) {
+                                Text(self.saveStudyErrorMessage!)
+                            } else {
+                                Text("Error saving study \"\(self.study.name)\"")
+                            }
+                        }.padding()
+                    }
                 }
             } else {
                 ProgressView()
@@ -172,10 +190,11 @@ struct BrAPIPreviewField: View {
     
     private func fetchStudyDetails() async {
         do {
+            self.fetchStudyError = false
             self.studyDetails = try await brapiStudyService.fetchStudyDetails(studyDbId: self.study.studyDbId!, observationLevel: self.selectedObservationLevel)
         } catch {
             print("error fetching studyDetails: \(error.localizedDescription)")
-            //todo show error
+            self.fetchStudyError = true
         }
         
         self.studyDetailsLoading = false

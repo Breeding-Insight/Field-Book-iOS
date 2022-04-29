@@ -9,7 +9,7 @@ import Foundation
 
 class Study: Hashable, Equatable, ObservableObject {
     
-    public var internalId: Int64?
+    @Published public var internalId: Int64?
     public var studyDbId: String?
     public var name: String
     public var alias: String?
@@ -38,6 +38,7 @@ class Study: Hashable, Equatable, ObservableObject {
     public var observationUnits: [ObservationUnit] = []
     public var observationVariables: [ObservationVariable] = []
     @Published public var observations: [Observation] = []
+    public var attributes: Set<String> = []
     
     init(name: String) {
         self.name = name

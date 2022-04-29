@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeScreenWidget: View {
+struct HomeScreenNavItem: View {
     let icon: String
     let label: String
     let destination: AnyView
@@ -35,6 +35,6 @@ struct HomeScreenWidget: View {
 
 struct HomeScreenWidget_Previews: PreviewProvider {
     static var previews: some View {
-        HomeScreenWidget(icon: "fields", label: "Fields", destination: AnyView(Text("View Fields")), selection: .constant("Fields"))
+        HomeScreenNavItem(icon: "fields", label: "Fields", destination: AnyView(Text("View Fields")), selection: .constant("Fields"))
     }
 }

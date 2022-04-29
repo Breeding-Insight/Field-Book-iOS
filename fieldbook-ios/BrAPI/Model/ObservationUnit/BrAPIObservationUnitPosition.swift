@@ -16,6 +16,28 @@ public struct BrAPIObservationUnitPosition: Codable {
         case check = "CHECK"
         case test = "TEST"
         case filler = "FILLER"
+        
+        public init?(rawValue: String) {
+            let uppercased = rawValue.uppercased()
+            
+            switch uppercased {
+            case EntryType.check.get():
+                self = EntryType.check
+            case EntryType.test.get():
+                self = EntryType.test
+            case EntryType.filler.get():
+                self = EntryType.filler
+            default:
+                return nil
+            }
+        }
+        
+        func get() -> String {
+            switch self {
+            default:
+                return rawValue
+            }
+        }
     }
     public enum PositionCoordinateType: String, Codable {
         case longitude = "LONGITUDE"
@@ -58,6 +80,67 @@ public struct BrAPIObservationUnitPosition: Codable {
         self.positionCoordinateXType = positionCoordinateXType
         self.positionCoordinateY = positionCoordinateY
         self.positionCoordinateYType = positionCoordinateYType
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case entryType
+        case geoCoordinates
+        case observationLevel
+        case observationLevelRelationships
+        case positionCoordinateX
+        case positionCoordinateXType
+        case positionCoordinateY
+        case positionCoordinateYType
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        do {
+            entryType = try container.decode(EntryType.self, forKey: .entryType)
+        } catch DecodingError.valueNotFound {
+            entryType = nil
+        }
+        do {
+            geoCoordinates = try container.decode(BrAPIGeoJSON.self, forKey: .geoCoordinates)
+        } catch DecodingError.valueNotFound {
+            geoCoordinates = nil
+        }
+        do {
+            observationLevel = try container.decode(BrAPIObservationUnitHierarchyLevel.self, forKey: .observationLevel)
+        } catch DecodingError.valueNotFound {
+            observationLevel = nil
+        }
+        do {
+            observationLevelRelationships = try container.decode([BrAPIObservationUnitHierarchyLevel].self, forKey: .observationLevelRelationships)
+        } catch DecodingError.valueNotFound {
+            observationLevelRelationships = nil
+        }
+        
+        do {
+            positionCoordinateX = try String(container.decode(String.self, forKey: .positionCoordinateX))
+        } catch DecodingError.typeMismatch {
+            positionCoordinateX = try String(container.decode(Int.self, forKey: .positionCoordinateX))
+        } catch DecodingError.valueNotFound {
+            positionCoordinateX = nil
+        }
+        do {
+            positionCoordinateXType = try container.decode(PositionCoordinateType.self, forKey: .positionCoordinateXType)
+        } catch DecodingError.valueNotFound {
+            positionCoordinateXType = nil
+        }
+        
+        do {
+            positionCoordinateY = try String(container.decode(String.self, forKey: .positionCoordinateY))
+        } catch DecodingError.typeMismatch {
+            positionCoordinateY = try String(container.decode(Int.self, forKey: .positionCoordinateY))
+        } catch DecodingError.valueNotFound {
+            positionCoordinateY = nil
+        }
+        do {
+            positionCoordinateYType = try container.decode(PositionCoordinateType.self, forKey: .positionCoordinateYType)
+        } catch DecodingError.valueNotFound {
+            positionCoordinateYType = nil
+        }
     }
 
 

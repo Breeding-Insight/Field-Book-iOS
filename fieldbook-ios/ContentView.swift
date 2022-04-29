@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var appState = AppState()
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -43,26 +44,15 @@ struct ContentView: View {
         }
         
         print(database)
+        
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Spacer()
-                HStack {
-                    SwiftUI.Image("fb_icon").padding()
-                    Text("Field Book")
-                        .font(.largeTitle)
-                }.frame(alignment: .top)
-                Text("Current Field: Prosser Fall 2021")
-                Spacer()
-                HomeScreen()
-                Spacer()
-                Text("v1.0").frame(maxWidth: .infinity, alignment: .trailing).padding()
-            }.frame(maxHeight: .infinity, alignment: .topLeading)
-                .navigationBarHidden(true)
-                .navigationTitle("Home")
-        }.navigationViewStyle(StackNavigationViewStyle())
+        HomeView()
+            .environmentObject(appState)
+            .onAppear {
+                appState.currentStudyId = SettingsUtilities.getCurrentStudyId()
+            }
     }
 }
 

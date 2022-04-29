@@ -45,6 +45,28 @@ public struct BrAPIObservationVariable: Codable {
     /** Other variable names */
     public var synonyms: [String]?
     public var trait: BrAPITrait?
+    
+    private enum CodingKeys: String, CodingKey {
+        case additionalInfo
+        case commonCropName
+        case contextOfUse
+        case defaultValue
+        case documentationURL
+        case externalReferences
+        case growthStage
+        case institution
+        case language
+        case method
+        case observationVariableDbId
+        case observationVariableName
+        case ontologyReference
+        case scale
+        case scientist
+        case status
+        case submissionTimestamp
+        case synonyms
+        case trait
+    }
 
     public init(additionalInfo: [String:String]? = nil, commonCropName: String? = nil, contextOfUse: [String]? = nil, defaultValue: String? = nil, documentationURL: String? = nil, externalReferences: [BrAPIExternalReferencesInner]? = nil, growthStage: String? = nil, institution: String? = nil, language: String? = nil, method: BrAPIMethod? = nil, observationVariableDbId: String? = nil, observationVariableName: String, ontologyReference: BrAPIOntologyReference? = nil, scale: BrAPIScale? = nil, scientist: String? = nil, status: String? = nil, submissionTimestamp: Date? = nil, synonyms: [String]? = nil, trait: BrAPITrait? = nil) {
         self.additionalInfo = additionalInfo
@@ -68,5 +90,103 @@ public struct BrAPIObservationVariable: Codable {
         self.trait = trait
     }
 
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        do {
+            additionalInfo = try container.decode([String:String].self, forKey: .additionalInfo)
+        } catch DecodingError.valueNotFound {
+            additionalInfo = nil
+        }
+        do {
+            commonCropName = try container.decode(String.self, forKey: .commonCropName)
+        } catch DecodingError.valueNotFound {
+            commonCropName = nil
+        }
+        do {
+            contextOfUse = try container.decode([String].self, forKey: .contextOfUse)
+        } catch DecodingError.valueNotFound {
+            contextOfUse = nil
+        }
+        do {
+            defaultValue = try container.decode(String.self, forKey: .defaultValue)
+        } catch DecodingError.valueNotFound {
+            defaultValue = nil
+        }
+        do {
+            documentationURL = try container.decode(String.self, forKey: .documentationURL)
+        } catch DecodingError.valueNotFound {
+            documentationURL = nil
+        }
+        do {
+            externalReferences = try container.decode([BrAPIExternalReferencesInner].self, forKey: .externalReferences)
+        } catch DecodingError.valueNotFound {
+            externalReferences = nil
+        }
+        do {
+            growthStage = try container.decode(String.self, forKey: .growthStage)
+        } catch DecodingError.valueNotFound {
+            growthStage = nil
+        }
+        do {
+            institution = try container.decode(String.self, forKey: .institution)
+        } catch DecodingError.valueNotFound {
+            institution = nil
+        }
+        do {
+            language = try container.decode(String.self, forKey: .language)
+        } catch DecodingError.valueNotFound {
+            language = nil
+        }
+        do {
+            method = try container.decode(BrAPIMethod.self, forKey: .method)
+        } catch DecodingError.valueNotFound {
+            method = nil
+        }
+        do {
+            observationVariableDbId = try container.decode(String.self, forKey: .observationVariableDbId)
+        } catch DecodingError.typeMismatch {
+            observationVariableDbId = try String(container.decode(Int.self, forKey: .observationVariableDbId))
+        } catch DecodingError.valueNotFound {
+            observationVariableDbId = nil
+        }
+        do {
+            observationVariableName = try container.decode(String.self, forKey: .observationVariableName)
+        }
+        do {
+            ontologyReference = try container.decode(BrAPIOntologyReference.self, forKey: .ontologyReference)
+        } catch DecodingError.valueNotFound {
+            ontologyReference = nil
+        }
+        do {
+            scale = try container.decode(BrAPIScale.self, forKey: .scale)
+        } catch DecodingError.valueNotFound {
+            scale = nil
+        }
+        do {
+            scientist = try container.decode(String.self, forKey: .scientist)
+        } catch DecodingError.valueNotFound {
+            scientist = nil
+        }
+        do {
+            status = try container.decode(String.self, forKey: .status)
+        } catch DecodingError.valueNotFound {
+            status = nil
+        }
+        do {
+            submissionTimestamp = try container.decode(Date.self, forKey: .submissionTimestamp)
+        } catch DecodingError.valueNotFound {
+            submissionTimestamp = nil
+        }
+        do {
+            synonyms = try container.decode([String].self, forKey: .synonyms)
+        } catch DecodingError.valueNotFound {
+            synonyms = nil
+        }
+        do {
+            trait = try container.decode(BrAPITrait.self, forKey: .trait)
+        } catch DecodingError.valueNotFound {
+            trait = nil
+        }
+    }
 
 }

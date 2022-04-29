@@ -18,9 +18,12 @@
 		2247B5D3278FD3DE00FE5704 /* BrAPISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247B5D2278FD3DE00FE5704 /* BrAPISettingsView.swift */; };
 		2247B5D5278FD3E900FE5704 /* DatabaseSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247B5D4278FD3E900FE5704 /* DatabaseSettingsView.swift */; };
 		2247B5D7278FDCF400FE5704 /* ListItemWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247B5D6278FDCF400FE5704 /* ListItemWidget.swift */; };
-		2258E6B628194FBE002EDA20 /* PreferencesUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2258E6B528194FBE002EDA20 /* PreferencesUtilities.swift */; };
+		2258E6B628194FBE002EDA20 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2258E6B528194FBE002EDA20 /* Utilities.swift */; };
 		2258E6B828198472002EDA20 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2258E6B728198472002EDA20 /* Errors.swift */; };
-		225D065427B84E50005D4CCB /* PreferenceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225D065327B84E50005D4CCB /* PreferenceConstants.swift */; };
+		2258E6BA281A3FAB002EDA20 /* DataStructures+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2258E6B9281A3FAB002EDA20 /* DataStructures+Extensions.swift */; };
+		2258E6BC281B3B6E002EDA20 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2258E6BB281B3B6E002EDA20 /* HomeView.swift */; };
+		2258E6BE281B7539002EDA20 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2258E6BD281B7539002EDA20 /* AppState.swift */; };
+		225D065427B84E50005D4CCB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225D065327B84E50005D4CCB /* Constants.swift */; };
 		225EBA1E2747685600528ED6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA1C2747685600528ED6 /* SettingsView.swift */; };
 		225EBA1F2747685600528ED6 /* CollectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA1D2747685600528ED6 /* CollectView.swift */; };
 		225EBA3027476A7200528ED6 /* NumericalScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225EBA2927476A7200528ED6 /* NumericalScale.swift */; };
@@ -37,10 +40,10 @@
 		2268D54F2735CDAA0088A202 /* fieldbook_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2268D54E2735CDAA0088A202 /* fieldbook_iosUITestsLaunchTests.swift */; };
 		227792A628189F2400EAFFF6 /* InjectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227792A528189F2400EAFFF6 /* InjectionProvider.swift */; };
 		227792A82818D6DE00EAFFF6 /* Migrations.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 227792A72818D6DE00EAFFF6 /* Migrations.bundle */; };
-		2297352F27361B5F007D8104 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2297352E27361B5F007D8104 /* HomeScreen.swift */; };
+		2297352F27361B5F007D8104 /* HomeScreenNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2297352E27361B5F007D8104 /* HomeScreenNav.swift */; };
 		2297353127364D31007D8104 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2297353027364D31007D8104 /* AppColors.swift */; };
 		229735352736AE6E007D8104 /* FieldListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229735342736AE6E007D8104 /* FieldListView.swift */; };
-		22973537273B179E007D8104 /* HomeScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22973536273B179E007D8104 /* HomeScreenWidget.swift */; };
+		22973537273B179E007D8104 /* HomeScreenNavItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22973536273B179E007D8104 /* HomeScreenNavItem.swift */; };
 		22B6BD642748B0410011D65A /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6BD632748B0410011D65A /* Styles.swift */; };
 		22C8663F27476AC7001CB8B6 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 22C8663E27476AC7001CB8B6 /* WrappingHStack */; };
 		22C8664327476B28001CB8B6 /* BrapiStudyImportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664027476B27001CB8B6 /* BrapiStudyImportSheet.swift */; };
@@ -306,9 +309,12 @@
 		2247B5D2278FD3DE00FE5704 /* BrAPISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrAPISettingsView.swift; sourceTree = "<group>"; };
 		2247B5D4278FD3E900FE5704 /* DatabaseSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseSettingsView.swift; sourceTree = "<group>"; };
 		2247B5D6278FDCF400FE5704 /* ListItemWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemWidget.swift; sourceTree = "<group>"; };
-		2258E6B528194FBE002EDA20 /* PreferencesUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesUtilities.swift; sourceTree = "<group>"; };
+		2258E6B528194FBE002EDA20 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		2258E6B728198472002EDA20 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		225D065327B84E50005D4CCB /* PreferenceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceConstants.swift; sourceTree = "<group>"; };
+		2258E6B9281A3FAB002EDA20 /* DataStructures+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataStructures+Extensions.swift"; sourceTree = "<group>"; };
+		2258E6BB281B3B6E002EDA20 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = "fieldbook-ios/Views/Activities/HomeView.swift"; sourceTree = SOURCE_ROOT; };
+		2258E6BD281B7539002EDA20 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		225D065327B84E50005D4CCB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		225EBA1C2747685600528ED6 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		225EBA1D2747685600528ED6 /* CollectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectView.swift; sourceTree = "<group>"; };
 		225EBA2927476A7200528ED6 /* NumericalScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericalScale.swift; sourceTree = "<group>"; };
@@ -328,10 +334,10 @@
 		2268D54E2735CDAA0088A202 /* fieldbook_iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fieldbook_iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		227792A528189F2400EAFFF6 /* InjectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectionProvider.swift; sourceTree = "<group>"; };
 		227792A72818D6DE00EAFFF6 /* Migrations.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Migrations.bundle; path = "fieldbook-ios/Database/Migrations.bundle"; sourceTree = "<group>"; };
-		2297352E27361B5F007D8104 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		2297352E27361B5F007D8104 /* HomeScreenNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenNav.swift; sourceTree = "<group>"; };
 		2297353027364D31007D8104 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		229735342736AE6E007D8104 /* FieldListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldListView.swift; sourceTree = "<group>"; };
-		22973536273B179E007D8104 /* HomeScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenWidget.swift; sourceTree = "<group>"; };
+		22973536273B179E007D8104 /* HomeScreenNavItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenNavItem.swift; sourceTree = "<group>"; };
 		22B6BD632748B0410011D65A /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		22C8664027476B27001CB8B6 /* BrapiStudyImportSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrapiStudyImportSheet.swift; sourceTree = "<group>"; };
 		22C8664127476B27001CB8B6 /* CreateFieldSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateFieldSheet.swift; sourceTree = "<group>"; };
@@ -675,9 +681,10 @@
 				2297353027364D31007D8104 /* AppColors.swift */,
 				2268D5332735CDAA0088A202 /* ContentView.swift */,
 				22B6BD632748B0410011D65A /* Styles.swift */,
-				225D065327B84E50005D4CCB /* PreferenceConstants.swift */,
-				2258E6B528194FBE002EDA20 /* PreferencesUtilities.swift */,
+				225D065327B84E50005D4CCB /* Constants.swift */,
+				2258E6B528194FBE002EDA20 /* Utilities.swift */,
 				2258E6B728198472002EDA20 /* Errors.swift */,
+				2258E6B9281A3FAB002EDA20 /* DataStructures+Extensions.swift */,
 			);
 			path = "fieldbook-ios";
 			sourceTree = "<group>";
@@ -720,6 +727,7 @@
 			children = (
 				229735332736AE5D007D8104 /* Activities */,
 				229735322736AE4D007D8104 /* Components */,
+				2258E6BD281B7539002EDA20 /* AppState.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -730,8 +738,8 @@
 				225EBA2727476A4600528ED6 /* Scales */,
 				22470EDA273CD21D00697B0E /* Traits */,
 				22470ED1273C49EC00697B0E /* Fields */,
-				2297352E27361B5F007D8104 /* HomeScreen.swift */,
-				22973536273B179E007D8104 /* HomeScreenWidget.swift */,
+				2297352E27361B5F007D8104 /* HomeScreenNav.swift */,
+				22973536273B179E007D8104 /* HomeScreenNavItem.swift */,
 				2247B5D6278FDCF400FE5704 /* ListItemWidget.swift */,
 			);
 			path = Components;
@@ -740,6 +748,7 @@
 		229735332736AE5D007D8104 /* Activities */ = {
 			isa = PBXGroup;
 			children = (
+				2258E6BB281B3B6E002EDA20 /* HomeView.swift */,
 				2247B5C7278FD33D00FE5704 /* Settings */,
 				225EBA1D2747685600528ED6 /* CollectView.swift */,
 				225EBA1C2747685600528ED6 /* SettingsView.swift */,
@@ -1384,7 +1393,7 @@
 				22C867742748A7F1001CB8B6 /* BrAPIObservation.swift in Sources */,
 				22C8673D2748A7F1001CB8B6 /* BrAPISearchRequestParametersExternalReferences.swift in Sources */,
 				2258E6B828198472002EDA20 /* Errors.swift in Sources */,
-				22973537273B179E007D8104 /* HomeScreenWidget.swift in Sources */,
+				22973537273B179E007D8104 /* HomeScreenNavItem.swift in Sources */,
 				22F81A172817284B00FF8E98 /* ObservationsAPI.swift in Sources */,
 				22C8678F2748A7F1001CB8B6 /* BrAPIObservationSingleResponse.swift in Sources */,
 				22C867522748A7F1001CB8B6 /* BrAPIObservationLevelListResponseResult.swift in Sources */,
@@ -1432,7 +1441,7 @@
 				22C867422748A7F1001CB8B6 /* BrAPITraitListResponse.swift in Sources */,
 				22F81A4E281742F400FF8E98 /* ObservationService.swift in Sources */,
 				225EBA3427476A7200528ED6 /* NominalScale.swift in Sources */,
-				2258E6B628194FBE002EDA20 /* PreferencesUtilities.swift in Sources */,
+				2258E6B628194FBE002EDA20 /* Utilities.swift in Sources */,
 				22C867812748A7F1001CB8B6 /* BrAPITrialSearchRequest.swift in Sources */,
 				22F81A802817A4B700FF8E98 /* Trait.swift in Sources */,
 				22C867952748A7F1001CB8B6 /* BrAPIObservationUnitListResponse.swift in Sources */,
@@ -1455,11 +1464,12 @@
 				22C8674F2748A7F1001CB8B6 /* BrAPIOntologyReference.swift in Sources */,
 				22C867982748A7F1001CB8B6 /* BrAPIObservationVariable.swift in Sources */,
 				22C8674D2748A7F1001CB8B6 /* BrAPILocation.swift in Sources */,
-				2297352F27361B5F007D8104 /* HomeScreen.swift in Sources */,
+				2297352F27361B5F007D8104 /* HomeScreenNav.swift in Sources */,
 				22C867442748A7F1001CB8B6 /* BrAPISearchRequestParametersCommonCropNames.swift in Sources */,
 				22C8675D2748A7F1001CB8B6 /* BrAPIMetadata.swift in Sources */,
 				22F81A72281799B200FF8E98 /* ObservationUnitValuesTable.swift in Sources */,
 				22C8675C2748A7F1001CB8B6 /* BrAPITrialListResponseResult.swift in Sources */,
+				2258E6BC281B3B6E002EDA20 /* HomeView.swift in Sources */,
 				22C8675B2748A7F1001CB8B6 /* BrAPIScaleListResponseResult.swift in Sources */,
 				225EBA3527476A7200528ED6 /* DateScale.swift in Sources */,
 				22C867052748A7F1001CB8B6 /* BrAPIObservationUnitListResponseResult.swift in Sources */,
@@ -1512,7 +1522,7 @@
 				22C867582748A7F1001CB8B6 /* BrAPIMetadataStatus.swift in Sources */,
 				22C867122748A7F1001CB8B6 /* BrAPIScaleListResponse.swift in Sources */,
 				22C8679C2748A7F1001CB8B6 /* BrAPIProgramListResponse.swift in Sources */,
-				225D065427B84E50005D4CCB /* PreferenceConstants.swift in Sources */,
+				225D065427B84E50005D4CCB /* Constants.swift in Sources */,
 				22F81A232817284B00FF8E98 /* StudiesAPI.swift in Sources */,
 				22C867142748A7F1001CB8B6 /* BrAPIPolygonGeometry.swift in Sources */,
 				22F81A662817997400FF8E98 /* PlotAttributesTable.swift in Sources */,
@@ -1594,6 +1604,7 @@
 				22F81A5C2817992E00FF8E98 /* DeviceMetadataTable.swift in Sources */,
 				22C867152748A7F1001CB8B6 /* BrAPIObservationNewRequest.swift in Sources */,
 				22C867682748A7F1001CB8B6 /* BrAPIImageSingleResponse.swift in Sources */,
+				2258E6BE281B7539002EDA20 /* AppState.swift in Sources */,
 				22F81A7A2817A22B00FF8E98 /* Observation.swift in Sources */,
 				22C867B52748A7F1001CB8B6 /* BrAPIPointGeometry.swift in Sources */,
 				22C867A62748A7F1001CB8B6 /* BrAPIStudy.swift in Sources */,
@@ -1606,6 +1617,7 @@
 				22C8676C2748A7F1001CB8B6 /* BrAPIServerInfo.swift in Sources */,
 				22C8677A2748A7F1001CB8B6 /* BrAPIObservationUnitSingleResponse.swift in Sources */,
 				22C867352748A7F1001CB8B6 /* BrAPIGeoJSONSearchArea.swift in Sources */,
+				2258E6BA281A3FAB002EDA20 /* DataStructures+Extensions.swift in Sources */,
 				22C8676A2748A7F1001CB8B6 /* BrAPIPersonListResponseResult.swift in Sources */,
 				22F81A1D2817284B00FF8E98 /* SeasonsAPI.swift in Sources */,
 				22C867162748A7F1001CB8B6 /* BrAPIListsListResponseResult.swift in Sources */,

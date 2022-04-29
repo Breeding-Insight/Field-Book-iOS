@@ -15,7 +15,7 @@ class ObservationUnit {
     public var primaryId: String?
     public var secondaryId: String?
     public var geoCoordinates: String?
-    public var additionalInfo: String?
+    public var additionalInfo: [String:String]? = [:]
     public var germplasmDbId: String?
     public var germplasmName: String?
     public var observationLevel: String?
@@ -23,18 +23,18 @@ class ObservationUnit {
     public var positionCoordinateXType: String?
     public var positionCoordinateY: String?
     public var positionCoordinateYType: String?
-    public var attributes: [ObservationUnitAttribute:ObservationUnitAttributeValue]?
+    public var attributes: [ObservationUnitAttribute:ObservationUnitAttributeValue]? = [:]
+    public var observations: [Observation]? = []
 }
 
-class ObservationUnitAttribute: Hashable, Equatable {
+class ObservationUnitAttribute: Codable, Hashable, Equatable {
     
     public var internalId: Int64?
     public var attributeName: String
-    public var studyId: Int64
+    public var studyId: Int64?
     
-    init(attributeName: String, studyId: Int64) {
+    init(attributeName: String) {
         self.attributeName = attributeName
-        self.studyId = studyId
     }
     
     public func hash(into hasher: inout Hasher) {
@@ -46,15 +46,14 @@ class ObservationUnitAttribute: Hashable, Equatable {
     }
 }
 
-class ObservationUnitAttributeValue {
+class ObservationUnitAttributeValue: Codable {
     public var internalId: Int64?
     public var attributeId: Int64?
     public var value: String
     public var observationUnitId: Int64?
-    public var studyId: Int64
+    public var studyId: Int64?
     
-    init(value: String, studyId: Int64) {
+    init(value: String) {
         self.value = value
-        self.studyId = studyId
     }
 }

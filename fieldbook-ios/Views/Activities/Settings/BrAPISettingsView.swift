@@ -65,7 +65,7 @@ struct BrAPISettingsView: View {
                 .sheet(isPresented: $showingBrapiUrlSheet) {
                     NavigationView {
                         VStack {
-                            TextField("BrAPI URL", text: $brapiUrl)
+                            TextField("BrAPI URL", text: $brapiUrl).disableAutocorrection(true)
                             
                             Button("Done") {
                                 UserDefaults.standard.set(brapiUrl, forKey: PreferenceConstants.BRAPI_URL)
@@ -118,7 +118,7 @@ struct BrAPISettingsView: View {
                 .sheet(isPresented: $showingPageSizeSheet) {
                     NavigationView {
                         VStack {
-                            TextField("Page Size", text: $pageSize).keyboardType(.decimalPad)
+                            TextField("Page Size", text: $pageSize).keyboardType(.decimalPad).disableAutocorrection(true)
                             
                             Button("Done") {
                                 UserDefaults.standard.set(pageSize, forKey: PreferenceConstants.BRAPI_PAGE_SIZE)
@@ -140,7 +140,7 @@ struct BrAPISettingsView: View {
                 .sheet(isPresented: $showingTimeoutSheet) {
                     NavigationView {
                         VStack {
-                            TextField("Timeout", text: $timeout).keyboardType(.decimalPad)
+                            TextField("Timeout", text: $timeout).keyboardType(.decimalPad).disableAutocorrection(true)
                             
                             Button("Done") {
                                 UserDefaults.standard.set(timeout, forKey: PreferenceConstants.BRAPI_TIMEOUT)
@@ -193,7 +193,7 @@ struct BrAPISettingsView: View {
                 .sheet(isPresented: $showingOidcUrlSheet) {
                     NavigationView {
                         VStack {
-                            TextField("OIDC URL", text: $oidcUrl)
+                            TextField("OIDC URL", text: $oidcUrl).disableAutocorrection(true)
                             
                             Button("Done") {
                                 UserDefaults.standard.set(oidcUrl, forKey: PreferenceConstants.BRAPI_OIDC_URL)
