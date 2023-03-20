@@ -60,7 +60,7 @@ struct TraitListView: View {
                             switch sheetContent {
                             case .brapi: BrAPITriatImportSheet(sheetName: "BrAPI")
                             case .file: SheetView(sheetName: "File")
-                            case .newTrait: SheetView(sheetName: "New trait")
+                            case .newTrait: TraitEditSheet(sheetName: "New trait", variable: nil)
                             }
                             
                         })
@@ -125,7 +125,7 @@ private struct TraitListItem: View {
                     .destructive(Text("Delete"), action: {self.showingDeleteAlert = true})
                 ])
             }.sheet(isPresented: $showingSortSheet) {
-                SheetView(sheetName: "Editing Trait")
+                TraitEditSheet(sheetName: "Edit Trait", variable: variable)
             }
         }
     }

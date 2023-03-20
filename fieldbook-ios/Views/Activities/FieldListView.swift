@@ -28,7 +28,9 @@ struct FieldListView: View {
             if(!self.loadingStudies) {
                 VStack {
                     if(studies.isEmpty) {
-                        Text("No fields currently exist, press the ") + Text(Image(systemName: "plus.circle.fill")).foregroundColor(.black)  + Text(" to get started")
+                        HStack {
+                            Text("No fields currently exist, press the ") + Text(Image(systemName: "plus.circle.fill")).foregroundColor(.black)  + Text(" to get started")
+                        }.padding(.leading).padding(.trailing)
                     } else {
                         Text("Select a field to collect data for").padding(.top)
                         List {
@@ -82,7 +84,7 @@ struct FieldListView: View {
                                 switch sheetContent {
                                 case .brapi: BrapiStudyImportSheet(sheetName: "BrAPI")
                                 case .file: SheetView(sheetName: "File")
-                                case .newField: SheetView(sheetName: "New field")
+                                case .newField: FieldEditSheet(sheetName: "New field", study: nil)
                                 }
                                 
                             })

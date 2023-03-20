@@ -41,11 +41,18 @@ class ObservationVariable: Codable, Hashable {
     }
 }
 
-enum TraitFormat: String, Codable {
+enum TraitFormat: String, Codable, CaseIterable, Equatable {
     case categorical = "Categorical"
     case date = "Date"
     case numeric = "Numeric"
     case text = "Text"
+    case percentage = "Percentage"
+    case boolean = "Boolean"
+    case audio = "Audio"
+    case counter = "Counter"
+    case diseaseRating = "Disease Rating"
+    case multicat = "Multicat"
+    case location = "Location"
     
     func get() -> String {
         switch self {
@@ -63,6 +70,20 @@ enum TraitFormat: String, Codable {
                 return TraitFormat.date
             case TraitFormat.numeric.get():
                 return TraitFormat.numeric
+            case TraitFormat.percentage.get():
+                return TraitFormat.percentage
+            case TraitFormat.boolean.get():
+                return TraitFormat.boolean
+            case TraitFormat.audio.get():
+                return TraitFormat.audio
+            case TraitFormat.counter.get():
+                return TraitFormat.counter
+            case TraitFormat.diseaseRating.get():
+                return TraitFormat.diseaseRating
+            case TraitFormat.multicat.get():
+                return TraitFormat.multicat
+            case TraitFormat.location.get():
+                return TraitFormat.location
             case TraitFormat.text.get():
                 fallthrough
             default:

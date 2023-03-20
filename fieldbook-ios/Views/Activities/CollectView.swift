@@ -143,9 +143,9 @@ struct CollectView: View {
                         NominalScale(options: self.getTraitCategories(), selected: $currentVal)
                     case .date:
                         DateScale(val:$currentVal)
-                    case .numeric:
+                    case .numeric, .percentage, .counter, .diseaseRating:
                         NumericalScale(val:$currentVal)
-                    case .text, .none:
+                    case .text, .boolean, .audio, .multicat, .location, .none:
                         TextScale(val:$currentVal)
                         //                case .nominal:
                         //                    NominalScale(options: (traits[currentTrait].scale?.validValues?.categories)!, selected: $currentVal)

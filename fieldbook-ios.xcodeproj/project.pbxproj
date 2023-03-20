@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11F4501228EBD04A0065E0A4 /* TraitEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F4501128EBD04A0065E0A4 /* TraitEditSheet.swift */; };
 		2234CAA127AF847500BA862F /* RadioGroup in Frameworks */ = {isa = PBXBuildFile; productRef = 2234CAA027AF847500BA862F /* RadioGroup */; };
 		22470ED9273CCFCC00697B0E /* TraitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22470ED8273CCFCC00697B0E /* TraitListView.swift */; };
 		22470EDC273CD22C00697B0E /* BrAPITraitImportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22470EDB273CD22C00697B0E /* BrAPITraitImportSheet.swift */; };
@@ -47,7 +48,7 @@
 		22B6BD642748B0410011D65A /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6BD632748B0410011D65A /* Styles.swift */; };
 		22C8663F27476AC7001CB8B6 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 22C8663E27476AC7001CB8B6 /* WrappingHStack */; };
 		22C8664327476B28001CB8B6 /* BrapiStudyImportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664027476B27001CB8B6 /* BrapiStudyImportSheet.swift */; };
-		22C8664427476B28001CB8B6 /* CreateFieldSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664127476B27001CB8B6 /* CreateFieldSheet.swift */; };
+		22C8664427476B28001CB8B6 /* FieldEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664127476B27001CB8B6 /* FieldEditSheet.swift */; };
 		22C8664527476B28001CB8B6 /* FileImportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664227476B28001CB8B6 /* FileImportSheet.swift */; };
 		22C867022748A7F1001CB8B6 /* BrAPIOntologyListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664B2748A7EC001CB8B6 /* BrAPIOntologyListResponse.swift */; };
 		22C867032748A7F1001CB8B6 /* BrAPIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8664C2748A7EC001CB8B6 /* BrAPIImage.swift */; };
@@ -299,6 +300,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11241A542821C81900332AA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		11F4501128EBD04A0065E0A4 /* TraitEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitEditSheet.swift; sourceTree = "<group>"; };
 		22470ED8273CCFCC00697B0E /* TraitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitListView.swift; sourceTree = "<group>"; };
 		22470EDB273CD22C00697B0E /* BrAPITraitImportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrAPITraitImportSheet.swift; sourceTree = "<group>"; };
 		2247B5C8278FD35C00FE5704 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
@@ -340,7 +343,7 @@
 		22973536273B179E007D8104 /* HomeScreenNavItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenNavItem.swift; sourceTree = "<group>"; };
 		22B6BD632748B0410011D65A /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		22C8664027476B27001CB8B6 /* BrapiStudyImportSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrapiStudyImportSheet.swift; sourceTree = "<group>"; };
-		22C8664127476B27001CB8B6 /* CreateFieldSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateFieldSheet.swift; sourceTree = "<group>"; };
+		22C8664127476B27001CB8B6 /* FieldEditSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldEditSheet.swift; sourceTree = "<group>"; };
 		22C8664227476B28001CB8B6 /* FileImportSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImportSheet.swift; sourceTree = "<group>"; };
 		22C8664B2748A7EC001CB8B6 /* BrAPIOntologyListResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrAPIOntologyListResponse.swift; sourceTree = "<group>"; };
 		22C8664C2748A7EC001CB8B6 /* BrAPIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrAPIImage.swift; sourceTree = "<group>"; };
@@ -602,11 +605,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		113EBC1F281CD5930079EB3F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		22470ED1273C49EC00697B0E /* Fields */ = {
 			isa = PBXGroup;
 			children = (
 				22C8664027476B27001CB8B6 /* BrapiStudyImportSheet.swift */,
-				22C8664127476B27001CB8B6 /* CreateFieldSheet.swift */,
+				22C8664127476B27001CB8B6 /* FieldEditSheet.swift */,
 				22C8664227476B28001CB8B6 /* FileImportSheet.swift */,
 			);
 			path = Fields;
@@ -616,6 +626,7 @@
 			isa = PBXGroup;
 			children = (
 				22470EDB273CD22C00697B0E /* BrAPITraitImportSheet.swift */,
+				11F4501128EBD04A0065E0A4 /* TraitEditSheet.swift */,
 			);
 			path = Traits;
 			sourceTree = "<group>";
@@ -654,6 +665,7 @@
 				2268D5412735CDAA0088A202 /* fieldbook-iosTests */,
 				2268D54B2735CDAA0088A202 /* fieldbook-iosUITests */,
 				2268D52F2735CDAA0088A202 /* Products */,
+				113EBC1F281CD5930079EB3F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -670,6 +682,7 @@
 		2268D5302735CDAA0088A202 /* fieldbook-ios */ = {
 			isa = PBXGroup;
 			children = (
+				11241A542821C81900332AA4 /* Info.plist */,
 				22F819FE2817214800FF8E98 /* Model */,
 				22F819EE281713D800FF8E98 /* Database */,
 				22F819E7281712D800FF8E98 /* Service */,
@@ -1616,6 +1629,7 @@
 				22F81A6E2817999600FF8E98 /* ObservationUnitsTable.swift in Sources */,
 				22C8676C2748A7F1001CB8B6 /* BrAPIServerInfo.swift in Sources */,
 				22C8677A2748A7F1001CB8B6 /* BrAPIObservationUnitSingleResponse.swift in Sources */,
+				11F4501228EBD04A0065E0A4 /* TraitEditSheet.swift in Sources */,
 				22C867352748A7F1001CB8B6 /* BrAPIGeoJSONSearchArea.swift in Sources */,
 				2258E6BA281A3FAB002EDA20 /* DataStructures+Extensions.swift in Sources */,
 				22C8676A2748A7F1001CB8B6 /* BrAPIPersonListResponseResult.swift in Sources */,
@@ -1635,7 +1649,7 @@
 				22C8675E2748A7F1001CB8B6 /* BrAPIListSearchRequest.swift in Sources */,
 				22C8671C2748A7F1001CB8B6 /* BrAPIEventsResponseResult.swift in Sources */,
 				22C8673F2748A7F1001CB8B6 /* BrAPIPersonSearchRequest.swift in Sources */,
-				22C8664427476B28001CB8B6 /* CreateFieldSheet.swift in Sources */,
+				22C8664427476B28001CB8B6 /* FieldEditSheet.swift in Sources */,
 				22C867512748A7F1001CB8B6 /* BrAPISeasonSingleResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1797,20 +1811,22 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"fieldbook-ios/Preview Content\"";
+				DEVELOPMENT_TEAM = BRH6AHTGLF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "fieldbook-ios/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.phenoapps.fieldbook-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = org.phenoapps.fieldbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1826,14 +1842,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"fieldbook-ios/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "fieldbook-ios/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
