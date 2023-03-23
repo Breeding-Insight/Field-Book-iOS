@@ -24,7 +24,7 @@ struct FilledButtonStyle: ButtonStyle {
             .frame(minWidth: 44, minHeight: 44)
             .padding(.horizontal)
             .foregroundColor(configuration.isPressed ? .gray : .black)
-            .background(Color.primaryFB)
+            .background(Colors.primaryFB)
             .cornerRadius(10)
     }
 }

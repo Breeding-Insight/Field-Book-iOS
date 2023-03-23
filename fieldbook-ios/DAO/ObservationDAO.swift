@@ -28,7 +28,7 @@ class ObservationDAO {
                 throw FieldBookError.daoError(message: "Failure saving observation -> code: \(code), error: \(message), in \(String(describing: statement))")
             }
         } else {
-            let insert = ObservationsTable.TABLE.insert(ObservationsTable.OBSERVATION_UNIT_ID <- observation.observationUnitId, ObservationsTable.STUDY_ID <- observation.studyId, ObservationsTable.OBSERVATION_VARIABLE_DB_ID <- observation.observationVariableId, ObservationsTable.VALUE <- observation.value, ObservationsTable.OBSERVATION_TIME_STAMP <- Date(),
+            let insert = ObservationsTable.TABLE.insert(ObservationsTable.OBSERVATION_UNIT_ID <- observation.observationUnitId!, ObservationsTable.STUDY_ID <- observation.studyId!, ObservationsTable.OBSERVATION_VARIABLE_DB_ID <- observation.observationVariableId!, ObservationsTable.VALUE <- observation.value, ObservationsTable.OBSERVATION_TIME_STAMP <- Date(),
                 ObservationsTable.COLLECTOR <- observation.collector,
                 ObservationsTable.GEOCOORDINATES <- observation.geoCoordinates,
                 ObservationsTable.OBSERVATION_DB_ID <- observation.observationDbId,

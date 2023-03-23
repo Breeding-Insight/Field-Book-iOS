@@ -11,15 +11,17 @@ import os
 class BrAPIStudyService {
     private let logger = Logger(subsystem: "org.phenoapps.fieldbook", category: "BrAPIStudyService")
     private let studyService: StudyService
+    private let brapiVariableService: BrAPIObservationVariableService
     
-    init(studyService: StudyService) {
+    init(studyService: StudyService, brapiVariableService: BrAPIObservationVariableService) {
         self.studyService = studyService
+        self.brapiVariableService = brapiVariableService
     }
     
     func fetchStudiesFromRemote(programDbId: String? = nil, trialDbId: String? = nil, page: Int? = 0) async throws -> [Study]{
-        let brapiClient = BrAPIClientAPI()
+        let brapiClient = InjectionProvider.getBrAPIClient()
         let brapiStudyAPI = StudiesAPI(brAPIClientAPI: brapiClient)
-        print("fetching studies")
+        logger.debug("fetching studies")
         
         let (data, error) = await withCheckedContinuation { continuation in
             brapiStudyAPI.studiesGet(programDbId: programDbId, trialDbId: trialDbId, page: page, pageSize: SettingsUtilities.getBrAPIPageSize(), authorization: SettingsUtilities.getBrAPIToken()) { data, error in
@@ -38,7 +40,7 @@ class BrAPIStudyService {
             switch errorResponse {
             case .error(let code, let data, let error):
                 let message = data?.debugDescription ?? ""
-                print("Error fetching studies: code: \(code), message: \(message)")
+                logger.error("Error fetching studies: code: \(code), message: \(message)")
                 throw error
             }
         }
@@ -47,7 +49,7 @@ class BrAPIStudyService {
     }
     
     func fetchStudyDetails(studyDbId: String, observationLevel: String? = nil) async throws -> Study {
-        let brapiClient = BrAPIClientAPI()
+        let brapiClient = InjectionProvider.getBrAPIClient()
         let brapiStudyAPI = StudiesAPI(brAPIClientAPI: brapiClient)
         
         let (data, error) = await withCheckedContinuation { continuation in
@@ -62,19 +64,19 @@ class BrAPIStudyService {
                 let (obsUnits, attributes) = try await self.fetchObservationUnits(studyDbId: studyDbId, observationLevel: observationLevel);
                 study.observationUnits = obsUnits
                 study.attributes = attributes
-                study.observationVariables = try await self.fetchAssociatedObservationVariables(studyDbId: studyDbId)
+                study.observationVariables = try await brapiVariableService.fetchAssociatedObservationVariables(studyDbId: studyDbId)
                 return study
             } catch {
                 throw error
             }
         } else {
-            print("error fetching BrAPIStudy: \(error!.localizedDescription)")
+            logger.error("error fetching BrAPIStudy: \(error!.localizedDescription)")
             throw error!
         }
     }
     
     func fetchObservationUnits(studyDbId: String, observationLevel: String? = nil) async throws -> ([ObservationUnit], Set<String>) {
-        let brapiClient = BrAPIClientAPI()
+        let brapiClient = InjectionProvider.getBrAPIClient()
         let brapiObservationUnitAPI = ObservationUnitsAPI(brAPIClientAPI: brapiClient)
         
         var ret: [ObservationUnit] = []
@@ -106,34 +108,8 @@ class BrAPIStudyService {
         }
     }
     
-    func fetchAssociatedObservationVariables(studyDbId: String) async throws -> [ObservationVariable] {
-        let brapiClient = BrAPIClientAPI()
-        let brapiObservationVariablesAPI = ObservationVariablesAPI(brAPIClientAPI: brapiClient)
-        
-        //todo handle pagination to fetch all
-        let (data, error) = await withCheckedContinuation { continuation in
-            brapiObservationVariablesAPI.variablesGet(studyDbId: studyDbId, page: 0, pageSize: SettingsUtilities.getBrAPIPageSize(), authorization: SettingsUtilities.getBrAPIToken()) { data, error in
-                continuation.resume(returning: (data, error))
-            }
-        }
-        
-        if(error == nil) {
-            var ret: [ObservationVariable] = []
-            for brapiVariable in data!.result.data {
-                let (data, error) = convertBrAPIObservationVariable(brapiVariable)
-                if(error == nil) {
-                    ret.append(data!)
-                }
-            }
-            return ret
-        } else {
-            print("error fetching BrAPIObservationVariables: \(String(describing: error))")
-            throw error!
-        }
-    }
-    
     func fetchAvailableObservationLevels(studyDbId: String? = nil, programDbId: String? = nil) async throws -> [String] {
-        let brapiClient = BrAPIClientAPI()
+        let brapiClient = InjectionProvider.getBrAPIClient()
         let brapiObservationUnitAPI = ObservationUnitsAPI(brAPIClientAPI: brapiClient)
         
         let (data, error) = await withCheckedContinuation { continuation in
@@ -258,86 +234,6 @@ class BrAPIStudyService {
             return "Row"
         case .latitude, .plantedIndividual, .gridCol, .measuredCol:
             return "Column"
-        }
-    }
-    
-    private func convertBrAPIObservationVariable(_ brapiVariable: BrAPIObservationVariable) -> (ObservationVariable?, Error?) {
-        let name = Utilities.getFirstNonNil([brapiVariable.synonyms?[0], brapiVariable.trait?.traitName, brapiVariable.observationVariableName])
-        if(name == nil) {
-            return (nil, FieldBookError.serviceError(message: "Missing variable name"))
-        }
-        
-        let variable = ObservationVariable(name: name!, dataType: brapiVariable.scale!.dataType!.get())
-        
-        if(brapiVariable.scale?.dataType != nil) {
-            variable.fieldBookFormat = convertBrAPIScaleType(type: brapiVariable.scale!.dataType!)
-        } else {
-            variable.fieldBookFormat = TraitFormat.text
-        }
-        variable.commonCropName = brapiVariable.commonCropName
-        variable.defaultValue = brapiVariable.defaultValue
-        variable.observationVariableDbId = brapiVariable.observationVariableDbId
-        variable.traitDataSource = SettingsUtilities.getBrAPIUrl()
-        variable.language = brapiVariable.language
-        variable.ontologyDbId = brapiVariable.ontologyReference?.ontologyDbId
-        variable.ontologyName = brapiVariable.ontologyReference?.ontologyName
-        variable.externalDbId = brapiVariable.observationVariableDbId
-        
-        var details = brapiVariable.trait?.traitDescription ?? ""
-        var additionalInfo: [String:String] = brapiVariable.additionalInfo != nil ? brapiVariable.additionalInfo! : [:]
-        var categories: [[String:String]] = []
-        if(variable.fieldBookFormat == TraitFormat.categorical && brapiVariable.scale?.validValues?.categories != nil) {
-            if(details.count > 0) {
-                details += "\nCategories: "
-            }
-            for (catIdx, cat) in brapiVariable.scale!.validValues!.categories!.enumerated() {
-                details += cat.value! + (cat.label != nil ? "=" + cat.label! : "")
-                if(catIdx + 1 < brapiVariable.scale!.validValues!.categories!.count) {
-                    details += "\n"
-                }
-                var categoriesDict: [String:String] = [:]
-                categoriesDict["value"] = cat.value!
-                categoriesDict["label"] = cat.label ?? ""
-                categories.append(categoriesDict)
-            }
-            
-            additionalInfo["catValueLabel"] = categories.toJsonString()
-            
-            let catAttr = ObservationVariableAttribute(attributeName: "category")
-            let catAttrVal = ObservationVariableAttributeValue(value: additionalInfo["catValueLabel"]!)
-            variable.attributes![catAttr] = catAttrVal
-        }
-        
-        variable.details = details
-        variable.additionalInfo = additionalInfo
-        
-        if(brapiVariable.scale?.validValues?.min != nil) {
-            let catValidValMin = ObservationVariableAttribute(attributeName: "validValMin")
-            let catValidValMinVal = ObservationVariableAttributeValue(value: String(brapiVariable.scale!.validValues!.min!))
-            variable.attributes![catValidValMin] = catValidValMinVal
-        }
-        
-        if(brapiVariable.scale?.validValues?.max != nil) {
-            let catValidValMax = ObservationVariableAttribute(attributeName: "validValMax")
-            let catValidValMaxVal = ObservationVariableAttributeValue(value: String(brapiVariable.scale!.validValues!.max!))
-            variable.attributes![catValidValMax] = catValidValMaxVal
-        }
-        
-        return (variable, nil)
-    }
-    
-    private func convertBrAPIScaleType(type: BrAPIScale.DataType) -> TraitFormat {
-        switch type {
-        case .date:
-            return TraitFormat.date
-        case .nominal, .ordinal:
-            return TraitFormat.categorical
-        case .numerical, .duration:
-            return TraitFormat.numeric
-        case .code, .text:
-            fallthrough
-        default:
-            return TraitFormat.text
         }
     }
     

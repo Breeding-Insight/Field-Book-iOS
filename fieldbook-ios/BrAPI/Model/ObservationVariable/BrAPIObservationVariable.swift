@@ -12,7 +12,7 @@ import Foundation
 public struct BrAPIObservationVariable: Codable {
 
     /** Additional arbitrary info */
-    public var additionalInfo: [String:String]?
+    public var additionalInfo: JSONObject?
     /** Crop name (examples: \&quot;Maize\&quot;, \&quot;Wheat\&quot;) */
     public var commonCropName: String?
     /** Indication of how trait is routinely used. (examples: [\&quot;Trial evaluation\&quot;, \&quot;Nursery evaluation\&quot;]) */
@@ -68,7 +68,7 @@ public struct BrAPIObservationVariable: Codable {
         case trait
     }
 
-    public init(additionalInfo: [String:String]? = nil, commonCropName: String? = nil, contextOfUse: [String]? = nil, defaultValue: String? = nil, documentationURL: String? = nil, externalReferences: [BrAPIExternalReferencesInner]? = nil, growthStage: String? = nil, institution: String? = nil, language: String? = nil, method: BrAPIMethod? = nil, observationVariableDbId: String? = nil, observationVariableName: String, ontologyReference: BrAPIOntologyReference? = nil, scale: BrAPIScale? = nil, scientist: String? = nil, status: String? = nil, submissionTimestamp: Date? = nil, synonyms: [String]? = nil, trait: BrAPITrait? = nil) {
+    public init(additionalInfo: JSONObject? = nil, commonCropName: String? = nil, contextOfUse: [String]? = nil, defaultValue: String? = nil, documentationURL: String? = nil, externalReferences: [BrAPIExternalReferencesInner]? = nil, growthStage: String? = nil, institution: String? = nil, language: String? = nil, method: BrAPIMethod? = nil, observationVariableDbId: String? = nil, observationVariableName: String, ontologyReference: BrAPIOntologyReference? = nil, scale: BrAPIScale? = nil, scientist: String? = nil, status: String? = nil, submissionTimestamp: Date? = nil, synonyms: [String]? = nil, trait: BrAPITrait? = nil) {
         self.additionalInfo = additionalInfo
         self.commonCropName = commonCropName
         self.contextOfUse = contextOfUse
@@ -93,7 +93,7 @@ public struct BrAPIObservationVariable: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         do {
-            additionalInfo = try container.decode([String:String].self, forKey: .additionalInfo)
+            additionalInfo = try container.decode(JSONObject.self, forKey: .additionalInfo)
         } catch DecodingError.valueNotFound {
             additionalInfo = nil
         }

@@ -12,13 +12,25 @@ struct SettingsUtilities {
         return Int(UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_PAGE_SIZE) ?? "1000")!
     }
     
-    static func getBrAPIToken() -> String {
-        return UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_TOKEN) ?? "abc123"
+    static func getBrAPIToken() -> String? {
+        return UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_TOKEN)
     }
     
-    static func getBrAPIUrl() -> String {
-        return UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_URL) ?? "https://test-server.brapi.org/brapi/v2"
-//        return "https://test-server.brapi.org/brapi/v2"
+    static func getBrAPIUrl() -> String? {
+        guard let brapiVersion = UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_VERSION) else {
+            print("brapi version not set")
+            return nil
+        }
+        
+        guard let brapiBaseUrl = UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_URL) else {
+            print("brapi url not set")
+            return nil
+        }
+        return  (brapiBaseUrl.hasSuffix("/") ? brapiBaseUrl : brapiBaseUrl + "/") + "brapi/v" + brapiVersion
+    }
+    
+    static func getBrAPIBaseUrl() -> String? {
+        return UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_URL)
     }
     
     static func getCurrentStudyId() -> Int64? {
@@ -57,5 +69,43 @@ struct Utilities {
             }
         }
         return [:]
+    }
+    
+    static func convertToJSONObject(_ text: String?) -> JSONObject {
+        if let data = text?.data(using: .utf8) {
+            do {
+                let obj = try JSONSerialization.jsonObject(with: data, options: []) as? JSONObject
+                if(obj != nil) {
+                    return obj!
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return JSONObject(value: [:])
+    }
+}
+
+struct DateUtils {
+
+    /*
+     * Return a date for display
+     */
+    static func dateToUtcDisplayString(date: Date) -> String {
+
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(abbreviation: "UTC")
+        formatter.dateFormat = "MMM dd yyyy HH:mm:ss"
+        return formatter.string(from: date)
+    }
+
+    /*
+     * Receive a timestamp from the API
+     */
+    static func apiErrorTimestampToDate(isoTimestamp: String) -> Date? {
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return formatter.date(from: isoTimestamp)
     }
 }

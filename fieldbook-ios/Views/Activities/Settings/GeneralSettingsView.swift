@@ -101,7 +101,8 @@ struct GeneralSettingsView: View {
                 moveUniqeId = !moveUniqeId
                 UserDefaults.standard.set(moveUniqeId, forKey: PreferenceConstants.MOVE_UNIQUE_ID)
             }
-        }.listStyle(.plain).navigationTitle("General")
+        }.listStyle(.plain)
+            .navigationTitle("General")
             .onAppear {
                 importSource = UserDefaults.standard.integer(forKey: PreferenceConstants.DEFAULT_IMPORT_SOURCE)
                 exportSource = UserDefaults.standard.integer(forKey:PreferenceConstants.DEFAULT_EXPORT_SOURCE)

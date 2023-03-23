@@ -13,6 +13,7 @@ struct FieldListView: View {
     @State private var studies: [Study] = []
     @State private var loadingStudies = true
     @State private var selectedStudy: Study = Study(name: "")
+    @State private var missingBrAPI = false
     
     private let studyService = InjectionProvider.getStudyService()
     
@@ -28,9 +29,8 @@ struct FieldListView: View {
             if(!self.loadingStudies) {
                 VStack {
                     if(studies.isEmpty) {
-                        HStack {
-                            Text("No fields currently exist, press the ") + Text(Image(systemName: "plus.circle.fill")).foregroundColor(.black)  + Text(" to get started")
-                        }.padding(.leading).padding(.trailing)
+                            Text("No fields currently exist")
+                            Text("press the ") + Text(Image(systemName: "plus.circle.fill")).foregroundColor(.black)  + Text(" to get started")
                     } else {
                         Text("Select a field to collect data for").padding(.top)
                         List {
@@ -69,8 +69,14 @@ struct FieldListView: View {
                             }).actionSheet(isPresented: $showingImportAction) {
                                 ActionSheet(title: Text("Add Field"), buttons: [
                                     .cancel { },
-                                    .default(Text("via BrAPI"), action: {sheetContent = .brapi
-                                        showSheet = true}),
+                                    .default(Text("via BrAPI"), action: {
+                                        if SettingsUtilities.getBrAPIBaseUrl() != nil {
+                                            sheetContent = .brapi
+                                            showSheet = true
+                                        } else {
+                                            self.missingBrAPI = true
+                                        }
+                                    }),
                                     .default(Text("From File"), action: {sheetContent = .file
                                         showSheet = true}),
                                     .default(Text("Create Field"), action: {sheetContent = .newField
@@ -93,7 +99,11 @@ struct FieldListView: View {
             } else {
                 ProgressView()
             }
-        }.task {
+        }
+        .alert(isPresented: $missingBrAPI) {
+            return Alert(title: Text("Config Error"), message: Text("BrAPI URL is not set.  Please configure BrAPI before importing"), dismissButton: .default(Text("Ok")))
+        }
+        .task {
             await fetchStoredStudies()
         }
     }

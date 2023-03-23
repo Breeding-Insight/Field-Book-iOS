@@ -29,7 +29,7 @@ class ObservationVariableDAO {
                 ObservationVariablesTable.POSITION <- variable.position,
                 ObservationVariablesTable.EXTERNAL_DB_ID <- variable.externalDbId,
                 ObservationVariablesTable.TRAIT_DATA_SOURCE <- variable.traitDataSource,
-                ObservationVariablesTable.ADDITIONAL_INFO <- variable.additionalInfo?.toJsonString(),
+                ObservationVariablesTable.ADDITIONAL_INFO <- (variable.additionalInfo?.value as? [String: JSONObject])?.toJsonString(),
                 ObservationVariablesTable.COMMON_CROP_NAME <- variable.commonCropName,
                 ObservationVariablesTable.LANGUAGE <- variable.language,
                 ObservationVariablesTable.DATA_TYPE <- variable.dataType,
@@ -115,7 +115,7 @@ class ObservationVariableDAO {
         variable.position = record[ObservationVariablesTable.POSITION]
         variable.externalDbId = record[ObservationVariablesTable.EXTERNAL_DB_ID]
         variable.traitDataSource = record[ObservationVariablesTable.TRAIT_DATA_SOURCE]
-        variable.additionalInfo = Utilities.convertToDictionary(record[ObservationVariablesTable.ADDITIONAL_INFO])
+        variable.additionalInfo = Utilities.convertToJSONObject(record[ObservationVariablesTable.ADDITIONAL_INFO])
         variable.commonCropName = record[ObservationVariablesTable.COMMON_CROP_NAME]
         variable.language = record[ObservationVariablesTable.LANGUAGE]
         variable.observationVariableDbId = record[ObservationVariablesTable.OBSERVATION_VARIABLE_DB_ID]

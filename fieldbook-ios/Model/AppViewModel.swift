@@ -1,16 +1,19 @@
 //
-//  AppState.swift
+//  AppViewModel.swift
 //  fieldbook-ios
 //
-//  Created by Tim Parsons on 4/28/22.
+//  Created by Tim Parsons on 3/21/23.
 //
 
 import Foundation
-import AppAuth
+import SwiftUI
 
-class AppState: ObservableObject, Equatable {
-    @Published var currentStudyId: Int64? = nil
-    @Published var authState: OIDAuthState?
+/*
+ * A primitive view model class to manage global objects and state
+ */
+class AppViewModel: ObservableObject {
+
+    // Global objects supplied during construction
     private let brapiAuthService: BrAPIAuthService
 
     /*
@@ -41,8 +44,29 @@ class AppState: ObservableObject, Equatable {
         // Swap the code for tokens on a background thread
         try await self.brapiAuthService.finishLogin(authResponse: response)
     }
-    
-    static func == (lhs: AppState, rhs: AppState) -> Bool {
-        return lhs.currentStudyId == rhs.currentStudyId && lhs.authState == rhs.authState
-    }
+
+    /*
+     * The logout entry point
+     */
+//    func logout(viewController: UIViewController) async throws {
+//
+//        // Make sure metadata is loaded
+//        try await self.authenticator.getMetadata()
+//
+//        // Do the logout redirect on the main thread
+//        try await MainActor.run {
+//            try self.authenticator.startLogoutRedirect(viewController: viewController)
+//        }
+//
+//        // Handle the logout response on a background thread
+//        _ = try await self.authenticator.handleLogoutResponse()
+//    }
+
+    /*
+     * Make the refresh token act expired
+     */
+//    func onExpireRefreshToken() {
+//        self.authenticator.expireRefreshToken()
+//    }
 }
+

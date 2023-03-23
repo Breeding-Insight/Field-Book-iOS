@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ObservationUnit {
+class ObservationUnit: ObservableObject {
     
     public var internalId: Int64?
     public var studyId: Int64?
@@ -24,7 +24,7 @@ class ObservationUnit {
     public var positionCoordinateY: String?
     public var positionCoordinateYType: String?
     public var attributes: [ObservationUnitAttribute:ObservationUnitAttributeValue]? = [:]
-    public var observations: [Observation]? = []
+    @Published public var observations: [Observation]? = []
 }
 
 class ObservationUnitAttribute: Codable, Hashable, Equatable {

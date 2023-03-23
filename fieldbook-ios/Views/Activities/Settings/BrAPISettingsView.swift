@@ -9,6 +9,7 @@ import SwiftUI
 import RadioGroup
 
 struct BrAPISettingsView: View {
+    @EnvironmentObject private var appState: AppState
     private let brapiVersionSources = ["v1", "v2"]
     private let oidcFlowSources = ["OIDC Implicit Flow", "Original Field Book Custom"]
     private let valueLabelSources = ["Value", "Label"]
@@ -16,7 +17,7 @@ struct BrAPISettingsView: View {
     @State private var showingBrapiUrlSheet = false
     @State private var brapiUrl = ""
     func setBrapiUrl() -> Void {
-        brapiUrl = UserDefaults.standard.string(forKey: PreferenceConstants.BRAPI_URL) ?? "https://test-server.brapi.org"
+        brapiUrl = SettingsUtilities.getBrAPIBaseUrl() ?? "https://test-server.brapi.org"
     }
     
     @State private var showingBrapiVersionSheet = false
@@ -46,9 +47,10 @@ struct BrAPISettingsView: View {
     }
     
     @State private var showingOidcUrlSheet = false
-    @State private var oidcUrl = "https://test-server.brapi.org/.well-known/openid-configuration"
+    @State private var oidcUrl = ""
     func setOidcUrl() -> Void {
-        oidcUrl = UserDefaults.standard.string(forKey: PreferenceConstants.BRAPI_OIDC_URL) ?? "https://test-server.brapi.org/.well-known/openid-configuration"
+        let baseUrl = SettingsUtilities.getBrAPIBaseUrl() ?? "https://test-server.brapi.org"
+        oidcUrl = UserDefaults.standard.string(forKey: PreferenceConstants.BRAPI_OIDC_URL) ?? (baseUrl.hasSuffix("/") ? baseUrl : baseUrl + "/") + ".well-known/openid-configuration"
     }
     
     @State private var showingValueLabelSheet = false
@@ -82,8 +84,6 @@ struct BrAPISettingsView: View {
                             })
                     }
                 }
-                ListItemWidget(rowIcon: "globe", mainText: "Authorize"
-                )
                 ListItemWidget(rowIcon: "v.square", mainText: "BrAPI Version", secondaryText: "V\(brapiVersion + 1)", rightIcon: "chevron.right"
                 ).onTapGesture {showingBrapiVersionSheet = true}
                 .sheet(isPresented: $showingBrapiVersionSheet) {
@@ -246,15 +246,42 @@ struct BrAPISettingsView: View {
                 ListItemWidget(rowIcon: "barcode.viewfinder", mainText: "Scan a server barcode"
                 )
             }
-        }.listStyle(.plain).navigationTitle("Breeding API").onAppear {
-            setBrapiUrl()
-            setBrapiVersion()
-            setPageSize()
-            setTimeout()
-            setOidcFlow()
-            setOidcUrl()
-            setValueLabelDisplay()
+        }.listStyle(.plain)
+            .navigationTitle("Breeding API")
+            .navigationBarItems(trailing: Button(action: {
+                self.brapiLogin()
+            }) {
+                Text(self.authText()).bold()
+            })
+            .onAppear {
+                setBrapiUrl()
+                setBrapiVersion()
+                setPageSize()
+                setTimeout()
+                setOidcFlow()
+                setOidcUrl()
+                setValueLabelDisplay()
+            }
+    }
+    
+    private func brapiLogin() {
+        Task {
+            // Do the OAuth work
+            try await self.appState.login(viewController: self.getHostingViewController())
         }
+    }
+    
+    private func authText() -> String {
+        return SettingsUtilities.getBrAPIToken() != nil ? "Reauthorize" : "Authorize"
+    }
+
+    /*
+     * A helper method to get the root view controller
+     */
+    private func getHostingViewController() -> UIViewController {
+
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        return scene!.keyWindow!.rootViewController!
     }
 }
 

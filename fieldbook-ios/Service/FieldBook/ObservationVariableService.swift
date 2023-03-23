@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import os
 
 class ObservationVariableService {
+    private let logger = Logger(subsystem: "org.phenoapps.fieldbook", category: "ObservationVariableService")
     private let database: Database
     private let observationVariableDAO: ObservationVariableDAO
     
@@ -26,6 +28,34 @@ class ObservationVariableService {
             throw FieldBookError.serviceError(message: message)
         }
         return ret
+    }
+    
+    func saveObservationVariables(_ observationVariables: [ObservationVariable], transaction: Bool = true) throws -> [ObservationVariable]? {
+        var savedVariables: [ObservationVariable] = []
+        if transaction {
+            try database.db.transaction {
+                savedVariables = try self._saveObservationVariables(observationVariables) ?? []
+            }
+        } else {
+            savedVariables = try self._saveObservationVariables(observationVariables) ?? []
+        }
+        
+        return savedVariables
+    }
+    
+    private func _saveObservationVariables(_ observationVariables: [ObservationVariable]) throws -> [ObservationVariable]? {
+        var savedVariables : Set<ObservationVariable> = []
+        for variable in observationVariables {
+            logger.debug("saving variable: \(variable.name)")
+            do {
+                savedVariables.insert(try observationVariableDAO.saveObservationVariable(variable)!)
+            } catch FieldBookError.nameConflictError {
+                logger.warning("variable already exists, fetching existing variable")
+                savedVariables.insert(try observationVariableDAO.getObservationVariableByName(variable.name)!)
+            }
+        }
+        
+        return Array(savedVariables)
     }
     
     func getObservationVariable(_ internalId: Int64) throws -> ObservationVariable? {

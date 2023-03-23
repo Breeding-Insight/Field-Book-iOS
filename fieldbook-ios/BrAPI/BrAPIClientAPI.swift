@@ -12,8 +12,8 @@ open class BrAPIClientAPI {
     public let customHeaders: [String:String]
     public static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
     
-    init(credential: URLCredential? = nil, customHeaders:[String:String]? = nil) {
-        self.basePath = SettingsUtilities.getBrAPIUrl()
+    init(basePath: String, credential: URLCredential? = nil, customHeaders:[String:String]? = nil) {
+        self.basePath = basePath
         self.credential = credential
         self.customHeaders = customHeaders ?? [:]
     }

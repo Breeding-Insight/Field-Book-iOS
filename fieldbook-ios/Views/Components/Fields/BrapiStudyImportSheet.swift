@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import os
 
 struct BrapiStudyImportSheet: View {
+    private let logger = Logger(subsystem: "org.phenoapps.fieldbook", category: "BrapiStudyImportSheet")
+    
     @Environment(\.dismiss) var dismiss
     let sheetName: String
     private let brapiStudyService = InjectionProvider.getBrAPIStudyService()
@@ -23,7 +26,7 @@ struct BrapiStudyImportSheet: View {
             VStack {
                 HStack {
                     Text("Base URL").bold().padding()
-                    Text(SettingsUtilities.getBrAPIUrl())
+                    Text(SettingsUtilities.getBrAPIBaseUrl()!)
                     Spacer()
                 }
                 if(!levelsLoading) {
@@ -36,26 +39,39 @@ struct BrapiStudyImportSheet: View {
                         }
                         Spacer()
                     }
-                    List {
-                        if(!studiesLoading) {
-                            ForEach(studies!, id: \.self.studyDbId) { study in
-                                NavigationLink(destination: BrAPIPreviewField(dismiss: _dismiss, study: study, levels: levels!, selectedObservationLevel: selectedObservationLevel)) {
-                                    Text(study.name)
+                    if(!studiesLoading) {
+                        if studies != nil {
+                            List {
+                                ForEach(studies!, id: \.self.studyDbId) { study in
+                                    NavigationLink(destination: BrAPIPreviewField(dismiss: _dismiss, study: study, levels: levels!, selectedObservationLevel: selectedObservationLevel)) {
+                                        Text(study.name)
+                                    }
                                 }
-                            }
+                            }.listStyle(.plain)
                         } else {
-                            ProgressView()
+                            HStack {
+                                Text("No studies were found")
+                            }
                         }
-                    }.listStyle(.plain)
-                    Spacer()
+                    } else {
+                        HStack {
+                            Spacer()
+                            ProgressView()
+                            Spacer()
+                        }
+                    }
                 } else {
-                    ProgressView()
-                    Spacer()
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
                 }
+                Spacer()
             }
             .navigationBarTitle(Text("BrAPI Field Import"), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
-                print("Dismissing sheet view...")
+                logger.debug("Dismissing sheet view...")
                 self.dismiss()
             }) {
                 Text("Cancel").bold()
@@ -81,7 +97,7 @@ struct BrapiStudyImportSheet: View {
         do {
             self.levels = try await brapiStudyService.fetchAvailableObservationLevels()
         } catch {
-            print("Error fetching levels: \(error.localizedDescription)")
+            logger.error("Error fetching levels: \(error.localizedDescription)")
             //todo show an error
         }
         self.levelsLoading = false
@@ -89,6 +105,8 @@ struct BrapiStudyImportSheet: View {
 }
 
 struct BrAPIPreviewField: View {
+    private let logger = Logger(subsystem: "org.phenoapps.fieldbook", category: "BrAPIPreviewField")
+    
     @Environment(\.dismiss) var dismiss
     let study: Study
     let levels: [String]
@@ -100,6 +118,7 @@ struct BrAPIPreviewField: View {
     @State private var saveStudyErrorMessage: String?
     @State private var fetchStudyError = false
     @State private var fetchStudyErrorMessage: String?
+    @State private var error = false
     
     private let brapiStudyService = InjectionProvider.getBrAPIStudyService()
     private let studyService = InjectionProvider.getStudyService()
@@ -158,7 +177,7 @@ struct BrAPIPreviewField: View {
                                         try await self.saveField()
                                         self.dismiss()
                                     } catch let FieldBookError.serviceError(message) {
-                                        print("error saving study: \(String(describing: message))")
+                                        logger.error("error saving study: \(String(describing: message))")
                                         self.saveStudyError = true
                                         self.saveStudyErrorMessage = nil
                                     } catch let FieldBookError.nameConflictError(message) {
@@ -180,11 +199,29 @@ struct BrAPIPreviewField: View {
                     }
                 }
             } else {
-                ProgressView()
+                HStack {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
                 Spacer()
             }
         }.task {
             await self.fetchStudyDetails()
+        }
+        .alert(isPresented: $error) {
+            var errorMsg = "An unknown error occurred"
+            if self.saveStudyError {
+                if self.saveStudyErrorMessage != nil {
+                    errorMsg = self.saveStudyErrorMessage!
+                } else {
+                    errorMsg = "Unable to save study"
+                }
+            } else if self.fetchStudyError && self.fetchStudyErrorMessage != nil {
+                errorMsg = self.fetchStudyErrorMessage!
+            }
+            
+            return Alert(title: Text("Error"), message: Text(errorMsg), dismissButton: .default(Text("Ok")))
         }
     }
     
@@ -193,8 +230,9 @@ struct BrAPIPreviewField: View {
             self.fetchStudyError = false
             self.studyDetails = try await brapiStudyService.fetchStudyDetails(studyDbId: self.study.studyDbId!, observationLevel: self.selectedObservationLevel)
         } catch {
-            print("error fetching studyDetails: \(error.localizedDescription)")
+            logger.error("error fetching studyDetails: \(error.localizedDescription)")
             self.fetchStudyError = true
+            self.error = true
         }
         
         self.studyDetailsLoading = false
@@ -204,6 +242,7 @@ struct BrAPIPreviewField: View {
         do {
             _ = try studyService.saveStudy(study: self.studyDetails!)
         } catch {
+            self.error = true
             throw error
         }
         self.savingStudy = false

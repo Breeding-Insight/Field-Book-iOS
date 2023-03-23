@@ -24,7 +24,7 @@ struct HomeView: View {
                 if(appState.currentStudyId != nil) {
                     Text("Current Field: \(self.getCurrentStudy()!.name)")
                 } else {
-                    Text("No active field")
+                    Text("*** No active field ***")
                 }
                 Spacer()
                 HomeScreenNav()

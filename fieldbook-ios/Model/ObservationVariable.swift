@@ -18,7 +18,7 @@ class ObservationVariable: Codable, Hashable {
     public var position: Int64?
     public var externalDbId: String?
     public var traitDataSource: String?
-    public var additionalInfo: [String:String]? = [:]
+    public var additionalInfo: JSONObject? = JSONObject(value: [:])
     public var commonCropName: String?
     public var language: String?
     public var observationVariableDbId: String?

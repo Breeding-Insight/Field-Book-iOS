@@ -6,21 +6,26 @@
 //
 
 import Foundation
+import os
 
 class StudyService {
+    private let logger = Logger(subsystem: "org.phenoapps.fieldbook", category: "StudyService")
     private let database: Database
     private let studyDAO: StudyDAO
     private let observationUnitDAO: ObservationUnitDAO
     private let observationVariableDAO: ObservationVariableDAO
+    private let observationVariableService: ObservationVariableService
     
-    init(database: Database, studyDAO: StudyDAO, observationUnitDAO: ObservationUnitDAO, observationVariableDAO: ObservationVariableDAO) {
+    init(database: Database, studyDAO: StudyDAO, observationUnitDAO: ObservationUnitDAO, observationVariableDAO: ObservationVariableDAO, observationVariableService: ObservationVariableService) {
         self.database = database
         self.studyDAO = studyDAO
         self.observationUnitDAO = observationUnitDAO
         self.observationVariableDAO = observationVariableDAO
+        self.observationVariableService = observationVariableService
     }
     
     func saveStudy(study: Study) throws -> Study? {
+        logger.debug("saving study: \(study.name)")
         do {
             var savedStudy: Study? = nil
             try database.db.transaction {
@@ -29,6 +34,7 @@ class StudyService {
                 if(!study.observationUnits.isEmpty) {
                     var savedOus: [ObservationUnit] = []
                     for ou in study.observationUnits {
+                        logger.debug("saving OU: \(ou.germplasmDbId ?? "")")
                         ou.studyId = savedStudy!.internalId!
                         savedOus.append(try observationUnitDAO.saveObservationUnit(ou)!)
                     }
@@ -41,21 +47,7 @@ class StudyService {
                 }
                 
                 if(!study.observationVariables.isEmpty) {
-                    var savedVariables : Set<ObservationVariable> = []
-                    for variable in study.observationVariables {
-                        do {
-                            savedVariables.insert(try observationVariableDAO.saveObservationVariable(variable)!)
-                        } catch FieldBookError.nameConflictError {
-                            print("variable already exists, fetching existing variable")
-                            savedVariables.insert(try observationVariableDAO.getObservationVariableByName(variable.name)!)
-                        }
-                    }
-                    
-                    //                    if(savedVariables.count != study.observationVariables.count) {
-                    //                        throw FieldBookError.serviceError(message: "Some observationVariables were not saved")
-                    //                    } else {
-                    savedStudy?.observationVariables = Array(savedVariables)
-                    //                    }
+                    savedStudy?.observationVariables = try observationVariableService.saveObservationVariables(study.observationVariables, transaction: false) ?? []
                 }
             }
             return savedStudy

@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @StateObject private var appState = AppState()
+struct AppView: View {
+    @EnvironmentObject private var appState: AppState
     
     init() {
         let coloredAppearance = UINavigationBarAppearance()
         coloredAppearance.configureWithOpaqueBackground()
-        coloredAppearance.backgroundColor = UIColor(Color.primaryFB)
+        coloredAppearance.backgroundColor = UIColor(Colors.primaryFB)
         coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
         coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
         
@@ -25,7 +25,7 @@ struct ContentView: View {
         
         let coloredToolbarAppearance = UIToolbarAppearance()
         coloredToolbarAppearance.configureWithOpaqueBackground()
-        coloredToolbarAppearance.backgroundColor = UIColor(Color.primaryFB)
+        coloredToolbarAppearance.backgroundColor = UIColor(Colors.primaryFB)
         
         UIToolbar.appearance().standardAppearance = coloredToolbarAppearance
         UIToolbar.appearance().compactAppearance = coloredToolbarAppearance
@@ -58,6 +58,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        AppView()
     }
 }

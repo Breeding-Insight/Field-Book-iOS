@@ -11,6 +11,7 @@ struct TraitListView: View {
     @State private var showingImportAction = false
     @State private var variables: [ObservationVariable] = []
     @State private var loadingVariables = true
+    @State private var missingBrAPI = false
     
     private let observationVariableService = InjectionProvider.getObservationVariableService()
     
@@ -26,7 +27,8 @@ struct TraitListView: View {
             if(!self.loadingVariables) {
                 VStack {
                     if(variables.isEmpty) {
-                        Text("No traits currently exist, press the ") + Text(Image(systemName: "plus.circle.fill")).foregroundColor(.black)  + Text(" to get started")
+                        Text("No traits currently exist")
+                        Text("press the ") + Text(Image(systemName: "plus.circle.fill")).foregroundColor(.black)  + Text(" to get started")
                     } else {
                         List {
                             ForEach(variables, id: \.self.internalId) { variable in
@@ -49,14 +51,24 @@ struct TraitListView: View {
                         }).actionSheet(isPresented: $showingImportAction) {
                             ActionSheet(title: Text("Add Trait"), buttons: [
                                 .cancel { },
-                                .default(Text("via BrAPI"), action: {sheetContent = .brapi
-                                    showSheet = true}),
+                                .default(Text("via BrAPI"), action: {
+                                    if SettingsUtilities.getBrAPIBaseUrl() != nil {
+                                        sheetContent = .brapi
+                                        showSheet = true
+                                    } else {
+                                        self.missingBrAPI = true
+                                    }
+                                }),
                                 .default(Text("From File"), action: {sheetContent = .file
                                     showSheet = true}),
                                 .default(Text("Create Trait"), action: {sheetContent = .newTrait
                                     showSheet = true})
                             ])
-                        }.sheet(isPresented: $showSheet, content: {
+                        }.sheet(isPresented: $showSheet, onDismiss: {
+                            Task {
+                                await fetchStoredVariables()
+                            }
+                        }, content: {
                             switch sheetContent {
                             case .brapi: BrAPITriatImportSheet(sheetName: "BrAPI")
                             case .file: SheetView(sheetName: "File")
@@ -69,6 +81,9 @@ struct TraitListView: View {
             }
         }.task {
             await fetchStoredVariables()
+        }
+        .alert(isPresented: $missingBrAPI) {
+            return Alert(title: Text("Config Error"), message: Text("BrAPI URL is not set.  Please configure BrAPI before importing"), dismissButton: .default(Text("Ok")))
         }
     }
     
