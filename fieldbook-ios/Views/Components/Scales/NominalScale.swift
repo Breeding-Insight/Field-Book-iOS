@@ -11,17 +11,18 @@ import WrappingHStack
 struct NominalScale: View {
     var options: [BrAPIScaleCategories]
     @Binding var selected: String
+    @State private var displayLabels = Int(UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_LABEL_DISPLAY) ?? "0") == 1
     
     var body: some View {
         WrappingHStack(options, id:\.self, alignment: .center) {option in
             if (option.value == selected) {
-                Button(option.value!) {
+                Button((self.displayLabels ? option.label! : option.value!)) {
                     buttonPressed(val: option.value!)
                 }
                     .buttonStyle(FilledButtonStyle())
                     .padding(.bottom).fixedSize(horizontal: true, vertical: false)
             } else {
-                Button(option.value!) {
+                Button((self.displayLabels ? option.label! : option.value!)) {
                     buttonPressed(val: option.value!)
                 }
                     .buttonStyle(OutlinedButtonStyle())
@@ -38,7 +39,6 @@ struct NominalScale: View {
 
 struct NominalScale_Previews: PreviewProvider {
     static var previews: some View {
-//        NominalScale(options: ["1sdfasdfasdf", "2asdfasdf", "3asdfasdf", "4asdfasdf"], selected: .constant("1sdfasdfasdf"))
-        NominalScale(options: [BrAPIScaleCategories(value:"1sdfasdfasdf"), BrAPIScaleCategories(value:"2asdfasdf"), BrAPIScaleCategories(value:"3asdfasdf"), BrAPIScaleCategories(value:"4asdfasdf")], selected: .constant("1sdfasdfasdf"))
+        NominalScale(options: [BrAPIScaleCategories(value:"Low"), BrAPIScaleCategories(value:"kinda low"), BrAPIScaleCategories(value:"kinda high"), BrAPIScaleCategories(value:"high")], selected: .constant("kinda low"))
     }
 }

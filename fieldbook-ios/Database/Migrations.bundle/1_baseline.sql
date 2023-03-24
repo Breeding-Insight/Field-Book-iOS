@@ -63,31 +63,6 @@ create table observation_variable_values
             on delete cascade
 );
 
-create table observations
-(
-    internal_id_observation                INTEGER
-        primary key autoincrement,
-    observation_unit_id                    TEXT
-        references observation_units,
-    study_id                               INTEGER
-        references study
-            on delete cascade,
-    observation_variable_db_id             INTEGER
-        references observation_variables
-            on delete cascade,
-    observation_variable_name              TEXT,
-    observation_variable_field_book_format TEXT,
-    value                                  TEXT,
-    observation_time_stamp                 TIMESTAMP,
-    collector                              TEXT,
-    geoCoordinates                         TEXT,
-    observation_db_id                      TEXT,
-    last_synced_time                       TEXT,
-    additional_info                        TEXT,
-    rep                                    TEXT,
-    notes                                  TEXT
-);
-
 create table plot_attributes
 (
     attribute_id   INTEGER
@@ -239,6 +214,31 @@ create table user_traits
     exp_id            TEXT,
     observation_db_id TEXT,
     last_synced_time  TEXT
+);
+
+create table observations
+(
+    internal_id_observation                INTEGER
+        primary key autoincrement,
+    observation_unit_id                    INTEGER
+        references observation_units,
+    study_id                               INTEGER
+        references study
+            on delete cascade,
+    observation_variable_db_id             INTEGER
+        references observation_variables
+            on delete cascade,
+    observation_variable_name              TEXT,
+    observation_variable_field_book_format TEXT,
+    value                                  TEXT,
+    observation_time_stamp                 TIMESTAMP,
+    collector                              TEXT,
+    geoCoordinates                         TEXT,
+    observation_db_id                      TEXT,
+    last_synced_time                       TEXT,
+    additional_info                        TEXT,
+    rep                                    TEXT,
+    notes                                  TEXT
 );
 
 CREATE VIEW LocalImageObservations     

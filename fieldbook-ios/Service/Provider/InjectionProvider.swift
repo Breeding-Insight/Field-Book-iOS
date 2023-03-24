@@ -10,7 +10,7 @@ import Foundation
 public class InjectionProvider {
     
     static func getStudyService() -> StudyService {
-        return StudyService(database: Database.instance!, studyDAO: getStudyDAO(), observationUnitDAO: getObservationUnitDAO(), observationVariableDAO: getObservationVariableDAO(), observationVariableService: getObservationVariableService())
+        return StudyService(database: Database.instance!, studyDAO: getStudyDAO(), observationUnitDAO: getObservationUnitDAO(), observationVariableDAO: getObservationVariableDAO(), observationVariableService: getObservationVariableService(), observationDAO: getObservationDAO())
     }
     
     static func getObservationVariableService() -> ObservationVariableService {
@@ -25,6 +25,18 @@ public class InjectionProvider {
         return BrAPIObservationVariableService(variableService: getObservationVariableService())
     }
     
+    static func getBrAPIObservationService() -> BrAPIObservationService {
+        return BrAPIObservationService(studyDAO: getStudyDAO(), variableDAO: getObservationVariableDAO(), observationUnitDAO: getObservationUnitDAO(), observationDAO: getObservationDAO())
+    }
+    
+    static func getBrAPIAuthService() -> BrAPIAuthService {
+        return BrAPIAuthService()
+    }
+    
+    static func getBrAPIClient() -> BrAPIClientAPI {
+        return BrAPIClientAPI(basePath: SettingsUtilities.getBrAPIUrl()!,customHeaders: ["Authorization": "Bearer " + SettingsUtilities.getBrAPIToken()!])
+    }
+    
     static func getObservationVariableDAO() -> ObservationVariableDAO {
         return ObservationVariableDAO(database: Database.instance!)
     }
@@ -37,11 +49,11 @@ public class InjectionProvider {
         return ObservationUnitDAO(database: Database.instance!)
     }
     
-    static func getBrAPIAuthService() -> BrAPIAuthService {
-        return BrAPIAuthService()
+    static func getObservationDAO() -> ObservationDAO {
+        return ObservationDAO(database: Database.instance!)
     }
     
-    static func getBrAPIClient() -> BrAPIClientAPI {
-        return BrAPIClientAPI(basePath: SettingsUtilities.getBrAPIUrl()!,customHeaders: ["Authorization": "Bearer " + SettingsUtilities.getBrAPIToken()!])
+    static func getObservationService() -> ObservationService {
+        return ObservationService(database: Database.instance!, observationDAO: self.getObservationDAO())
     }
 }

@@ -14,7 +14,10 @@ struct TextScale: View {
         VStack {
             TextField("Value", text: $val)
                 .overlay(VStack{Divider().offset(x: 0, y: 20)})
-                .padding().multilineTextAlignment(.center)
+                .padding()
+                .multilineTextAlignment(.center)
+                .autocapitalization(.none)
+                .autocorrectionDisabled(true)
         }
     }
 }

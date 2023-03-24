@@ -15,13 +15,15 @@ class StudyService {
     private let observationUnitDAO: ObservationUnitDAO
     private let observationVariableDAO: ObservationVariableDAO
     private let observationVariableService: ObservationVariableService
+    private let observationDAO: ObservationDAO
     
-    init(database: Database, studyDAO: StudyDAO, observationUnitDAO: ObservationUnitDAO, observationVariableDAO: ObservationVariableDAO, observationVariableService: ObservationVariableService) {
+    init(database: Database, studyDAO: StudyDAO, observationUnitDAO: ObservationUnitDAO, observationVariableDAO: ObservationVariableDAO, observationVariableService: ObservationVariableService, observationDAO: ObservationDAO) {
         self.database = database
         self.studyDAO = studyDAO
         self.observationUnitDAO = observationUnitDAO
         self.observationVariableDAO = observationVariableDAO
         self.observationVariableService = observationVariableService
+        self.observationDAO = observationDAO
     }
     
     func saveStudy(study: Study) throws -> Study? {
@@ -62,6 +64,10 @@ class StudyService {
             
             study?.observationUnits = try observationUnitDAO.getObservationUnits(studyId: internalId)
             
+            for ou in study!.observationUnits {
+                ou.observations = try observationDAO.getObservationsByObservationUnit(ou.internalId!)
+            }
+            
             return study
         } catch let FieldBookError.daoError(message) {
             throw FieldBookError.serviceError(message: message)
@@ -98,6 +104,7 @@ class StudyService {
         do {
             try database.db.transaction {
                 for studyId in studyIds {
+                    _ = try observationDAO.deleteObservation(studyId: studyId)
                     _ = try observationUnitDAO.deleteObservationUnits(studyId: studyId)
                 }
                 

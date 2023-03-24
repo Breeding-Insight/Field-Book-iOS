@@ -26,7 +26,7 @@ struct HomeScreenNav: View {
                 Spacer()
                 HomeScreenNavItem(icon: "create", label: "Collect", destination: AnyView(CollectView()), disabled: (appState.currentStudyId == nil), selection: $selection).disabled(appState.currentStudyId == nil)
                 Spacer()
-                HomeScreenNavItem(icon: "save", label: "Export", destination: AnyView(Text("View Fields")), disabled: (appState.currentStudyId == nil), selection: $selection).disabled(appState.currentStudyId == nil)
+                HomeScreenNavItem(icon: "save", label: "Export", destination: AnyView(ExportView()), disabled: (appState.currentStudyId == nil), selection: $selection).disabled(appState.currentStudyId == nil)
                 Spacer()
             }.padding(.bottom).padding(.top)
             Spacer()

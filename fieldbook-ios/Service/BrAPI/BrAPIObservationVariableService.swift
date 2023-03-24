@@ -66,7 +66,7 @@ class BrAPIObservationVariableService {
         variable.commonCropName = brapiVariable.commonCropName
         variable.defaultValue = brapiVariable.defaultValue
         variable.observationVariableDbId = brapiVariable.observationVariableDbId
-        variable.traitDataSource = SettingsUtilities.getBrAPIUrl()
+        variable.traitDataSource = SettingsUtilities.getBrAPIBaseUrl()
         variable.language = brapiVariable.language
         variable.ontologyDbId = brapiVariable.ontologyReference?.ontologyDbId
         variable.ontologyName = brapiVariable.ontologyReference?.ontologyName

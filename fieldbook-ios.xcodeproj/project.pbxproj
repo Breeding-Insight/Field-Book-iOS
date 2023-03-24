@@ -18,6 +18,7 @@
 		111F09DD29CA07B8004C2265 /* ErrorLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111F09D829CA07B8004C2265 /* ErrorLine.swift */; };
 		111F09DF29CB4887004C2265 /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111F09DE29CB4887004C2265 /* JSONObject.swift */; };
 		111F09E129CB9379004C2265 /* TraitDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111F09E029CB9379004C2265 /* TraitDetailSheet.swift */; };
+		111F09E329CCE15D004C2265 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111F09E229CCE15D004C2265 /* ExportView.swift */; };
 		117CDE8B29C8D45000C25A5D /* BrAPIAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117CDE8A29C8D45000C25A5D /* BrAPIAuthService.swift */; };
 		117CDE8E29C8D76500C25A5D /* AppAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 117CDE8D29C8D76500C25A5D /* AppAuth */; };
 		117CDE9029C8D76500C25A5D /* AppAuthCore in Frameworks */ = {isa = PBXBuildFile; productRef = 117CDE8F29C8D76500C25A5D /* AppAuthCore */; };
@@ -324,6 +325,7 @@
 		111F09D829CA07B8004C2265 /* ErrorLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorLine.swift; path = "fieldbook-ios/Errors/ErrorLine.swift"; sourceTree = SOURCE_ROOT; };
 		111F09DE29CB4887004C2265 /* JSONObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONObject.swift; sourceTree = "<group>"; };
 		111F09E029CB9379004C2265 /* TraitDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitDetailSheet.swift; sourceTree = "<group>"; };
+		111F09E229CCE15D004C2265 /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
 		11241A542821C81900332AA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		117CDE8A29C8D45000C25A5D /* BrAPIAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrAPIAuthService.swift; sourceTree = "<group>"; };
 		11F4501128EBD04A0065E0A4 /* TraitEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitEditSheet.swift; sourceTree = "<group>"; };
@@ -810,6 +812,7 @@
 				225EBA1C2747685600528ED6 /* SettingsView.swift */,
 				229735342736AE6E007D8104 /* FieldListView.swift */,
 				22470ED8273CCFCC00697B0E /* TraitListView.swift */,
+				111F09E229CCE15D004C2265 /* ExportView.swift */,
 			);
 			path = Activities;
 			sourceTree = "<group>";
@@ -1553,6 +1556,7 @@
 				22470ED9273CCFCC00697B0E /* TraitListView.swift in Sources */,
 				22C867A22748A7F1001CB8B6 /* BrAPILocationSearchRequest.swift in Sources */,
 				22F81A5A28178FDB00FF8E98 /* ObservationVariablesTable.swift in Sources */,
+				111F09E329CCE15D004C2265 /* ExportView.swift in Sources */,
 				22C867602748A7F1001CB8B6 /* BrAPISearchRequestParametersPaging.swift in Sources */,
 				22C8674B2748A7F1001CB8B6 /* BrAPISearchRequestParametersTrials.swift in Sources */,
 				22C867362748A7F1001CB8B6 /* BrAPISearchRequestParametersTokenPaging.swift in Sources */,
@@ -1874,6 +1878,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "fieldbook-ios/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Field Book";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1905,6 +1910,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "fieldbook-ios/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Field Book";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1931,6 +1937,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BRH6AHTGLF;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (

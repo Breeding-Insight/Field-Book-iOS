@@ -67,7 +67,10 @@ struct BrAPISettingsView: View {
                 .sheet(isPresented: $showingBrapiUrlSheet) {
                     NavigationView {
                         VStack {
-                            TextField("BrAPI URL", text: $brapiUrl).disableAutocorrection(true)
+                            TextField("BrAPI URL", text: $brapiUrl)
+                                .keyboardType(UIKeyboardType.URL)
+                                .autocorrectionDisabled(true)
+                                .textInputAutocapitalization(.none)
                             
                             Button("Done") {
                                 UserDefaults.standard.set(brapiUrl, forKey: PreferenceConstants.BRAPI_URL)

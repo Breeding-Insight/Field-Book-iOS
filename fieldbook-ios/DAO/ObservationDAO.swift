@@ -7,8 +7,10 @@
 
 import Foundation
 import SQLite
+import os
 
 class ObservationDAO {
+    private let logger = Logger(subsystem: "org.phenoapps.fieldbook", category: "ObservationDAO")
     private let database: Database
     
     init(database:Database) {
@@ -16,9 +18,21 @@ class ObservationDAO {
     }
     
     func saveObservation(_ observation: Observation) throws -> Observation? {
+        logger.debug("Saving observation")
         let savedObservation = try self.getObservation(observation.internalId)
         if(savedObservation != nil) {
-            let update = ObservationsTable.TABLE.filter(ObservationsTable.INTERNAL_ID_OBSERVATION == observation.internalId).update(ObservationsTable.VALUE <- observation.value)
+            logger.debug("updating observation")
+            let update = ObservationsTable.TABLE.filter(ObservationsTable.INTERNAL_ID_OBSERVATION == observation.internalId)
+                .update(ObservationsTable.VALUE <- observation.value,
+                        ObservationsTable.OBSERVATION_TIME_STAMP <- observation.observationTimeStamp ?? Date.now,
+                        ObservationsTable.COLLECTOR <- observation.collector,
+                        ObservationsTable.GEOCOORDINATES <- observation.geoCoordinates,
+                        ObservationsTable.OBSERVATION_DB_ID <- observation.observationDbId,
+                        ObservationsTable.LAST_SYNCED_TIME <- observation.lastSyncedTime,
+                        ObservationsTable.ADDITIONAL_INFO <- observation.additionalInfo,
+                        ObservationsTable.REP <- observation.rep,
+                        ObservationsTable.NOTES <- observation.notes
+                )
             
             do {
                 try database.db.run(update)
@@ -28,14 +42,19 @@ class ObservationDAO {
                 throw FieldBookError.daoError(message: "Failure saving observation -> code: \(code), error: \(message), in \(String(describing: statement))")
             }
         } else {
-            let insert = ObservationsTable.TABLE.insert(ObservationsTable.OBSERVATION_UNIT_ID <- observation.observationUnitId!, ObservationsTable.STUDY_ID <- observation.studyId!, ObservationsTable.OBSERVATION_VARIABLE_DB_ID <- observation.observationVariableId!, ObservationsTable.VALUE <- observation.value, ObservationsTable.OBSERVATION_TIME_STAMP <- Date(),
-                ObservationsTable.COLLECTOR <- observation.collector,
-                ObservationsTable.GEOCOORDINATES <- observation.geoCoordinates,
-                ObservationsTable.OBSERVATION_DB_ID <- observation.observationDbId,
-                ObservationsTable.LAST_SYNCED_TIME <- observation.lastSyncedTime,
-                ObservationsTable.ADDITIONAL_INFO <- observation.additionalInfo,
-                ObservationsTable.REP <- observation.rep,
-                ObservationsTable.NOTES <- observation.notes)
+            let insert = ObservationsTable.TABLE.insert(ObservationsTable.OBSERVATION_UNIT_ID <- observation.observationUnitId!,
+                                                        ObservationsTable.STUDY_ID <- observation.studyId!,
+                                                        ObservationsTable.OBSERVATION_VARIABLE_DB_ID <- observation.observationVariableId!,
+                                                        ObservationsTable.VALUE <- observation.value,
+                                                        ObservationsTable.OBSERVATION_TIME_STAMP <- Date.now,
+                                                        ObservationsTable.COLLECTOR <- observation.collector,
+                                                        ObservationsTable.GEOCOORDINATES <- observation.geoCoordinates,
+                                                        ObservationsTable.OBSERVATION_DB_ID <- observation.observationDbId,
+                                                        ObservationsTable.LAST_SYNCED_TIME <- observation.lastSyncedTime,
+                                                        ObservationsTable.ADDITIONAL_INFO <- observation.additionalInfo,
+                                                        ObservationsTable.REP <- observation.rep,
+                                                        ObservationsTable.NOTES <- observation.notes
+            )
             
             do {
                 var observationId: Int64 = -1
@@ -56,6 +75,8 @@ class ObservationDAO {
                 }
             } catch let Result.error(message, code, statement) {
                 throw FieldBookError.daoError(message: "failure getting observation -> code: \(code), error: \(message), in \(String(describing: statement))")
+            } catch {
+                throw FieldBookError.daoError(message: "failure getting observations -> \(error.localizedDescription)")
             }
         }
         
@@ -66,6 +87,20 @@ class ObservationDAO {
         var ret: [Observation] = []
         do {
             for record in try database.db.prepare(ObservationsTable.TABLE.filter(ObservationsTable.STUDY_ID == studyId)) {
+                let obs = populateRecord(record)
+                ret.append(obs)
+            }
+        } catch let Result.error(message, code, statement) {
+            throw FieldBookError.daoError(message: "failure getting observations -> code: \(code), error: \(message), in \(String(describing: statement))")
+        }
+        
+        return ret
+    }
+    
+    func getObservationsByObservationUnit(_ observationUnitId: Int64) throws -> [Observation] {
+        var ret: [Observation] = []
+        do {
+            for record in try database.db.prepare(ObservationsTable.TABLE.filter(ObservationsTable.OBSERVATION_UNIT_ID == observationUnitId)) {
                 let obs = populateRecord(record)
                 ret.append(obs)
             }
@@ -92,6 +127,19 @@ class ObservationDAO {
         }
         
         return removed
+    }
+    
+    func setLastSynced(_ syncObsIds: [Int64], lastSynced: Date) throws {
+        for id in syncObsIds {
+            let update = ObservationsTable.TABLE.filter(ObservationsTable.INTERNAL_ID_OBSERVATION == id)
+                .update(ObservationsTable.LAST_SYNCED_TIME <- lastSynced)
+            
+            do {
+                try database.db.run(update)
+            } catch let Result.error(message, code, statement) {
+                throw FieldBookError.daoError(message: "Failure updating lastSyncedTime -> code: \(code), error: \(message), in \(String(describing: statement))")
+            }
+        }
     }
     
     private func populateRecord(_ record: Row) -> Observation {

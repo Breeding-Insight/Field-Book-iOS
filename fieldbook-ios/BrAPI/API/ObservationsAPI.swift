@@ -324,7 +324,7 @@ open class ObservationsAPI {
      - parameter authorization: (header) HTTP HEADER - Token used for Authorization   &lt;strong&gt; Bearer {token_string} &lt;/strong&gt; (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open func observationsObservationDbIdPut(observationDbId: String, body: BrAPIObservationNewRequest? = nil, authorization: String? = nil, completion: @escaping ((_ data: BrAPIObservationSingleResponse?,_ error: Error?) -> Void)) {
+    open func observationsObservationDbIdPut(observationDbId: String, body: BrAPIObservation? = nil, authorization: String? = nil, completion: @escaping ((_ data: BrAPIObservationSingleResponse?,_ error: Error?) -> Void)) {
         observationsObservationDbIdPutWithRequestBuilder(observationDbId: observationDbId, body: body, authorization: authorization).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -409,7 +409,7 @@ open class ObservationsAPI {
 
      - returns: RequestBuilder<BrAPIObservationSingleResponse> 
      */
-    open func observationsObservationDbIdPutWithRequestBuilder(observationDbId: String, body: BrAPIObservationNewRequest? = nil, authorization: String? = nil) -> RequestBuilder<BrAPIObservationSingleResponse> {
+    open func observationsObservationDbIdPutWithRequestBuilder(observationDbId: String, body: BrAPIObservation? = nil, authorization: String? = nil) -> RequestBuilder<BrAPIObservationSingleResponse> {
         var path = "/observations/{observationDbId}"
         let observationDbIdPreEscape = "\(observationDbId)"
         let observationDbIdPostEscape = observationDbIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -433,7 +433,7 @@ open class ObservationsAPI {
      - parameter authorization: (header) HTTP HEADER - Token used for Authorization   &lt;strong&gt; Bearer {token_string} &lt;/strong&gt; (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open func observationsPost(body: [BrAPIObservationNewRequest]? = nil, authorization: String? = nil, completion: @escaping ((_ data: BrAPIObservationListResponse?,_ error: Error?) -> Void)) {
+    open func observationsPost(body: [BrAPIObservation]? = nil, authorization: String? = nil, completion: @escaping ((_ data: BrAPIObservationListResponse?,_ error: Error?) -> Void)) {
         observationsPostWithRequestBuilder(body: body, authorization: authorization).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -550,7 +550,7 @@ open class ObservationsAPI {
 
      - returns: RequestBuilder<BrAPIObservationListResponse>
      */
-    open func observationsPostWithRequestBuilder(body: [BrAPIObservationNewRequest]? = nil, authorization: String? = nil) -> RequestBuilder<BrAPIObservationListResponse> {
+    open func observationsPostWithRequestBuilder(body: [BrAPIObservation]? = nil, authorization: String? = nil) -> RequestBuilder<BrAPIObservationListResponse> {
         let path = "/observations"
         let URLString = brAPIClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
@@ -571,7 +571,7 @@ open class ObservationsAPI {
      - parameter authorization: (header) HTTP HEADER - Token used for Authorization   &lt;strong&gt; Bearer {token_string} &lt;/strong&gt; (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open func observationsPut(body: [String:BrAPIObservationNewRequest]? = nil, authorization: String? = nil, completion: @escaping ((_ data: BrAPIObservationListResponse?,_ error: Error?) -> Void)) {
+    open func observationsPut(body: [String:BrAPIObservation]? = nil, authorization: String? = nil, completion: @escaping ((_ data: BrAPIObservationListResponse?,_ error: Error?) -> Void)) {
         observationsPutWithRequestBuilder(body: body, authorization: authorization).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -688,7 +688,7 @@ open class ObservationsAPI {
 
      - returns: RequestBuilder<BrAPIObservationListResponse>
      */
-    open func observationsPutWithRequestBuilder(body: [String:BrAPIObservationNewRequest]? = nil, authorization: String? = nil) -> RequestBuilder<BrAPIObservationListResponse> {
+    open func observationsPutWithRequestBuilder(body: [String:BrAPIObservation]? = nil, authorization: String? = nil) -> RequestBuilder<BrAPIObservationListResponse> {
         let path = "/observations"
         let URLString = brAPIClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)

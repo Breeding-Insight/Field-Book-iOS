@@ -6,29 +6,36 @@
 //
 
 import SwiftUI
+import os
 
 struct CollectView: View {
+    private let logger = Logger(subsystem: "org.phenoapps.fieldbook", category: "CollectView")
+    
     @EnvironmentObject private var appState: AppState
     @State private var observationUnits: [ObservationUnit] = []
+    @State private var totalOus = 0.0
     @State private var traits: [ObservationVariable] = []
+    @State private var totalTraits = 0.0
     @State private var study: Study?
     @State private var loadingData = true
+    @State private var error = false
+    @State private var saveObservationError = false
     
     @State private var infoBar1: String = "Field Name"
     @State private var infoBar2: String = "Plot"
     
-    
-    @State private var currentTrait: Int = 0
-    @State private var currentObsvUnit: Int = 0
+    @State private var currentTrait: Int = -1
+    @State private var currentObsvUnit: Int = -1
     
     @State private var currentObservation: Observation = Observation()
     @State private var currentVal: String = ""
     
-    @State private var currentOuTraitsCompleted = 0
-    @State private var completedOus = 0
+    @State private var currentOuTraitsCompleted = 0.0
+    @State private var completedOus = 0.0
     
     private let observationVariableService = InjectionProvider.getObservationVariableService()
     private let studyService = InjectionProvider.getStudyService()
+    private let observationService = InjectionProvider.getObservationService()
     
     var body: some View {
         return VStack {
@@ -83,6 +90,15 @@ struct CollectView: View {
                         }
                 }.padding()
                 HStack {
+                    ProgressView(value: Double(self.currentTrait+1), total: self.totalTraits)
+                        .progressViewStyle(LinearProgressViewStyle())
+                        .labelsHidden()
+                        .tint(Colors.primaryFB)
+                        .foregroundColor(.gray)
+                    Text("[\(Int(self.currentOuTraitsCompleted))/\(Int(self.totalTraits))]")
+                }.padding(.leading, 50)
+                    .padding(.trailing, 50)
+                HStack {
                     SwiftUI.Image("main_entry_left_unpressed").resizable()
                         .scaledToFit()
                         .frame(width: 70, height: 70)
@@ -104,6 +120,15 @@ struct CollectView: View {
                             self.moveNextOu()
                         }
                 }.padding(.bottom)
+                HStack {
+                    ProgressView(value: Double(self.currentObsvUnit+1), total: self.totalOus)
+                        .progressViewStyle(LinearProgressViewStyle())
+                        .labelsHidden()
+                        .tint(.black)
+                        .foregroundColor(.gray)
+                    Text("[\(Int(self.completedOus))/\(Int(self.totalOus))]")
+                }.padding(.leading, 50)
+                    .padding(.trailing, 50)
                 VStack {
                     //                Text(currentVal).padding()
                     switch traits[currentTrait].fieldBookFormat {
@@ -130,13 +155,6 @@ struct CollectView: View {
                     }
                 }
                 Spacer()
-                HStack(alignment: .top) {
-                    Text("Progress:")
-                    VStack(alignment:.leading) {
-                        Text("\(self.currentOuTraitsCompleted)/\(self.traits.count) traits (current plot)")
-                        Text("\(self.completedOus)/\(self.observationUnits.count) plots")
-                    }
-                }.padding(.bottom, 10)
             }
         }.frame(maxHeight: .infinity, alignment: .topLeading)
             .navigationBarTitleDisplayMode(.inline)
@@ -160,8 +178,16 @@ struct CollectView: View {
                     }.foregroundColor(.black)
                 }
             }
-            .onAppear() {
-                loadState()
+            .task {
+                self.loadState()
+            }
+            .alert(isPresented: $error) {
+                var errorMsg = "An unknown error occurred"
+                if self.saveObservationError {
+                    errorMsg = "Unable to save observation for trait \(traits[currentTrait].name)"
+                }
+                
+                return Alert(title: Text("Error"), message: Text(errorMsg), dismissButton: .default(Text("Ok")))
             }
     }
     
@@ -174,9 +200,9 @@ struct CollectView: View {
         
         if(currentOU.observations != nil) {
             for observation in currentOU.observations! {
-                if(observation.internalId == currentTraitId) {
+                if(observation.observationVariableId == currentTraitId) {
                     trait = observation
-                    print("found existing val: " + (trait.value ?? "<no val>"))
+                    logger.debug("found existing val: \"\(trait.value ?? "<no val>")\")")
                     break
                 }
             }
@@ -185,7 +211,9 @@ struct CollectView: View {
         currentVal = trait.value ?? ""
     }
     
-    func saveCurrentVal() -> Void {
+    func saveCurrentVal() throws -> Void {
+        self.saveObservationError = false
+        
         let currentTraitId = self.traits[currentTrait].internalId
         let currentOU = self.observationUnits[currentObsvUnit]
         
@@ -193,33 +221,54 @@ struct CollectView: View {
         if(currentOU.observations != nil) {
             for obsvIdx in 0..<currentOU.observations!.count {
                 if(currentOU.observations![obsvIdx].observationVariableId == currentTraitId) {
+                    if(self.currentVal == self.observationUnits[currentObsvUnit].observations![obsvIdx].value) {
+                        logger.debug("no change to the value, skipping save")
+                        return
+                    }
+                    
                     self.observationUnits[currentObsvUnit].observations![obsvIdx].value = self.currentVal
                     self.observationUnits[currentObsvUnit].observations![obsvIdx].observationTimeStamp = Date.now
                     self.observationUnits[currentObsvUnit].observations![obsvIdx].collector = "admin" //todo fix this
                     hasTrait = true
-                    print("updated observation val: " + self.currentVal)
+                    logger.debug("updated observation val: \(self.currentVal)")
+                    
+                    do {
+                        _ = try observationService.saveObservation(observation: self.observationUnits[currentObsvUnit].observations![obsvIdx])
+                    } catch {
+                        self.saveObservationError = true
+                        throw error
+                    }
+                    
                     break
                 }
             }
         }
         
         if(!hasTrait && self.currentVal.trimmingCharacters(in: .whitespacesAndNewlines).count > 0) {
-            print("saving new observation val: " + self.currentVal)
+            logger.debug("saving new observation val: \(self.currentVal)")
             let observation = Observation(observationUnitId: currentOU.internalId!, studyId: study!.internalId!, observationVariableId: currentTraitId!)
             observation.value = self.currentVal
             observation.observationTimeStamp = Date.now
             observation.collector = "admin" //todo fix this
-            self.observationUnits[currentObsvUnit].observations!.append(observation)
             
-            if(self.currentOuTraitsCompleted < self.traits.count) {
-                self.currentOuTraitsCompleted += 1
-                if self.currentOuTraitsCompleted == self.traits.count {
-                    self.completedOus += 1
+            do {
+                let savedObservation = try observationService.saveObservation(observation: observation)
+                
+                self.observationUnits[currentObsvUnit].observations!.append(savedObservation!)
+                
+                if(self.currentOuTraitsCompleted < self.totalTraits) {
+                    self.currentOuTraitsCompleted += 1
+                    if self.currentOuTraitsCompleted == self.totalTraits {
+                        self.completedOus += 1
+                    }
                 }
+                
+                logger.debug("\(currentOU.observations!)")
+                logger.debug("\(self.observationUnits[currentObsvUnit].observations!)")
+            } catch {
+                self.saveObservationError = true
+                throw error
             }
-            
-            print(currentOU.observations!)
-            print(self.observationUnits[currentObsvUnit].observations!)
         }
     }
     
@@ -255,84 +304,121 @@ struct CollectView: View {
     }
     
     func movePreviousTrait() {
-        saveCurrentVal()
-        if (currentTrait == 0) {
-            currentTrait = traits.count - 1
+        do {
+            try saveCurrentVal()
+            if (currentTrait == 0) {
+                currentTrait = traits.count - 1
+                if (currentObsvUnit == 0) {
+                    currentObsvUnit = observationUnits.count - 1
+                } else {
+                    currentObsvUnit -= 1
+                }
+                setProgress()
+            } else {
+                currentTrait -= 1
+            }
+            UserDefaults.standard.set(currentTrait, forKey: AppConstants.CURRENT_TRAIT_IDX)
+            setCurrentObservationVal()
+        } catch let FieldBookError.serviceError(message) {
+            logger.error("error saving observation: \(String(describing: message))")
+            self.error = true
+        } catch {
+            logger.error("error saving observation: \(error.localizedDescription))")
+            self.error = true
+        }
+    }
+    
+    func moveNextTrait() {
+        do {
+            try saveCurrentVal()
+            if ((currentTrait + 1) == traits.count) {
+                currentTrait = 0
+                if ((currentObsvUnit + 1) == observationUnits.count) {
+                    currentObsvUnit = 0
+                } else {
+                    currentObsvUnit += 1
+                }
+                setProgress()
+            } else {
+                currentTrait += 1
+            }
+            UserDefaults.standard.set(currentTrait, forKey: AppConstants.CURRENT_TRAIT_IDX)
+            setCurrentObservationVal()
+        } catch let FieldBookError.serviceError(message) {
+            logger.error("error saving observation: \(String(describing: message))")
+            self.error = true
+        } catch {
+            logger.error("error saving observation: \(error.localizedDescription))")
+            self.error = true
+        }
+    }
+    
+    func movePreviousOu() {
+        do {
+            try saveCurrentVal()
             if (currentObsvUnit == 0) {
                 currentObsvUnit = observationUnits.count - 1
             } else {
                 currentObsvUnit -= 1
             }
+            UserDefaults.standard.set(currentObsvUnit, forKey: AppConstants.CURRENT_OU_IDX)
+            setCurrentObservationVal()
             setProgress()
-        } else {
-            currentTrait -= 1
+        } catch let FieldBookError.serviceError(message) {
+            logger.error("error saving observation: \(String(describing: message))")
+            self.error = true
+        } catch {
+            logger.error("error saving observation: \(error.localizedDescription))")
+            self.error = true
         }
-        setCurrentObservationVal()
     }
     
-    func moveNextTrait() {
-        saveCurrentVal()
-        if ((currentTrait + 1) == traits.count) {
-            currentTrait = 0
+    func moveNextOu() {
+        do {
+            try saveCurrentVal()
             if ((currentObsvUnit + 1) == observationUnits.count) {
                 currentObsvUnit = 0
             } else {
                 currentObsvUnit += 1
             }
+            UserDefaults.standard.set(currentObsvUnit, forKey: AppConstants.CURRENT_OU_IDX)
+            setCurrentObservationVal()
             setProgress()
-        } else {
-            currentTrait += 1
+        } catch let FieldBookError.serviceError(message) {
+            logger.error("error saving observation: \(String(describing: message))")
+            self.error = true
+        } catch {
+            logger.error("error saving observation: \(error.localizedDescription))")
+            self.error = true
         }
-        setCurrentObservationVal()
-    }
-    
-    func movePreviousOu() {
-        saveCurrentVal()
-        if (currentObsvUnit == 0) {
-            currentObsvUnit = observationUnits.count - 1
-        } else {
-            currentObsvUnit -= 1
-        }
-        setCurrentObservationVal()
-        setProgress()
-    }
-    
-    func moveNextOu() {
-        saveCurrentVal()
-        if ((currentObsvUnit + 1) == observationUnits.count) {
-            currentObsvUnit = 0
-        } else {
-            currentObsvUnit += 1
-        }
-        setCurrentObservationVal()
-        setProgress()
     }
     
     func setProgress() {
-        currentOuTraitsCompleted = self.observationUnits[currentObsvUnit].observations?.count ?? 0
+        currentOuTraitsCompleted = Double(self.observationUnits[currentObsvUnit].observations?.count ?? 0)
     }
     
     func loadState() {
         do {
             self.traits = try observationVariableService.getAllObservationVariables()
+            self.totalTraits = Double(traits.count)
             let study = try studyService.getStudy(appState.currentStudyId!)
             if(study?.observationUnits != nil) {
                 self.study = study
                 self.observationUnits = study!.observationUnits
+                self.totalOus = Double(self.observationUnits.count)
+                self.currentTrait = Int(UserDefaults.standard.string(forKey:AppConstants.CURRENT_TRAIT_IDX) ?? "0")!
+                self.currentObsvUnit = Int(UserDefaults.standard.string(forKey:AppConstants.CURRENT_OU_IDX) ?? "0")!
+                self.setCurrentObservationVal()
+                self.setProgress()
+                self.currentOuTraitsCompleted = Double(self.observationUnits[self.currentObsvUnit].observations?.count ?? 0)
             }
         } catch let FieldBookError.serviceError(message){
-            print("error fetching data from db \(String(describing: message))")
+            logger.error("error fetching data from db \(String(describing: message))")
         } catch {
-            print("unknown error")
+            logger.error("unknown error: \(error.localizedDescription)")
         }
         
         self.loadingData = false
     }
     
 }
-
-//struct CollectView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CollectView()
-//    }
-//}

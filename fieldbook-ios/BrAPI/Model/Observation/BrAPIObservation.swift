@@ -59,5 +59,117 @@ public struct BrAPIObservation: Codable {
         self.value = value
     }
 
-
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        do {
+            additionalInfo = try container.decode([String:String].self, forKey:.additionalInfo)
+        } catch DecodingError.valueNotFound {
+            additionalInfo = nil
+        } catch DecodingError.keyNotFound {
+            additionalInfo = nil
+        }
+        do {
+            collector = try container.decode(String.self, forKey:.collector)
+        } catch DecodingError.valueNotFound {
+            collector = nil
+        }
+        do {
+            externalReferences = try container.decode([BrAPIExternalReferencesInner].self, forKey:.externalReferences)
+        } catch DecodingError.valueNotFound {
+            externalReferences = nil
+        } catch DecodingError.keyNotFound {
+            externalReferences = nil
+        }
+        
+        do {
+            germplasmDbId = try container.decode(String.self, forKey:.germplasmDbId)
+        } catch DecodingError.typeMismatch {
+            germplasmDbId = try String(container.decode(Int.self, forKey: .germplasmDbId))
+        }  catch DecodingError.valueNotFound {
+            germplasmDbId = nil
+        }
+        do {
+            germplasmName = try container.decode(String.self, forKey:.germplasmName)
+        } catch DecodingError.valueNotFound {
+            germplasmName = nil
+        }
+        do {
+            observationDbId = try container.decode(String.self, forKey:.observationDbId)
+        } catch DecodingError.typeMismatch {
+            observationDbId = try String(container.decode(Int.self, forKey: .observationDbId))
+        }  catch DecodingError.valueNotFound {
+            observationDbId = nil
+        }
+        do {
+            observationTimeStamp = try container.decode(Date.self, forKey:.observationTimeStamp)
+        } catch DecodingError.valueNotFound {
+            observationTimeStamp = nil
+        }
+        do {
+            observationUnitDbId = try container.decode(String.self, forKey:.observationUnitDbId)
+        } catch DecodingError.typeMismatch {
+            observationUnitDbId = try String(container.decode(Int.self, forKey: .observationUnitDbId))
+        }  catch DecodingError.valueNotFound {
+            observationUnitDbId = nil
+        }
+        do {
+            observationUnitName = try container.decode(String.self, forKey:.observationUnitName)
+        } catch DecodingError.valueNotFound {
+            observationUnitName = nil
+        }
+        do {
+            observationVariableDbId = try container.decode(String.self, forKey:.observationVariableDbId)
+        } catch DecodingError.typeMismatch {
+            observationVariableDbId = try String(container.decode(Int.self, forKey: .observationVariableDbId))
+        }  catch DecodingError.valueNotFound {
+            observationVariableDbId = nil
+        }
+        do {
+            observationVariableName = try container.decode(String.self, forKey:.observationVariableName)
+        } catch DecodingError.valueNotFound {
+            observationVariableName = nil
+        }
+        do {
+            season = try container.decode(BrAPISeason.self, forKey:.season)
+        } catch DecodingError.valueNotFound {
+            season = nil
+        } catch DecodingError.keyNotFound {
+            season = nil
+        }
+        do {
+            studyDbId = try container.decode(String.self, forKey:.studyDbId)
+        } catch DecodingError.typeMismatch {
+            studyDbId = try String(container.decode(Int.self, forKey: .studyDbId))
+        }  catch DecodingError.valueNotFound {
+            studyDbId = nil
+        }
+        do {
+            uploadedBy = try container.decode(String.self, forKey:.uploadedBy)
+        } catch DecodingError.valueNotFound {
+            uploadedBy = nil
+        }
+        do {
+            value = try container.decode(String.self, forKey:.value)
+        } catch DecodingError.valueNotFound {
+            value = nil
+        }
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case additionalInfo
+        case collector
+        case externalReferences
+        case germplasmDbId
+        case germplasmName
+        case observationDbId
+        case observationTimeStamp
+        case observationUnitDbId
+        case observationUnitName
+        case observationVariableDbId
+        case observationVariableName
+        case season
+        case studyDbId
+        case uploadedBy
+        case value
+    }
 }

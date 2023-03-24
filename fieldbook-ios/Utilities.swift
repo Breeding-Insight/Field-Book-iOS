@@ -17,10 +17,7 @@ struct SettingsUtilities {
     }
     
     static func getBrAPIUrl() -> String? {
-        guard let brapiVersion = UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_VERSION) else {
-            print("brapi version not set")
-            return nil
-        }
+        let brapiVersion = UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_VERSION) ?? "2"
         
         guard let brapiBaseUrl = UserDefaults.standard.string(forKey:PreferenceConstants.BRAPI_URL) else {
             print("brapi url not set")

@@ -9,29 +9,70 @@ import SwiftUI
 
 struct DateScale: View {
     @Binding var val: String
-    let dateFormatter = DateFormatter()
     
     init(val: Binding<String>) {
         _val = val
-        dateFormatter.dateFormat = "yyyy-MM-dd"
     }
     
     var body: some View {
-        VStack (alignment: .center) {
-            DatePicker(
-                    "",
-                    selection: Binding(get: {
-                        dateFormatter.date(from:val) ?? Date()
-                    }, set: {
-                        val = dateFormatter.string(from: $0)
-                    }),
-                    displayedComponents: [.date]
-                )
-                .labelsHidden()
-                .id(val)
-                .datePickerStyle(.compact)
-                .padding()
+        HStack (alignment: .top) {
+            DatePickerPopover(dateVal: $val)
         }
+    }
+}
+
+struct DatePickerPopover: View {
+    @State var showingPicker = false
+    @State var oldDate: Date = Date()
+    @Binding var dateVal: String
+    private let dateFormatter = DateFormatter()
+    
+    init(showingPicker: Bool = false, oldDate: Date = Date(), dateVal: Binding<String>) {
+        _dateVal = dateVal
+        self.showingPicker = showingPicker
+        self.oldDate = oldDate
+        
+        self.dateFormatter.dateFormat = "yyyy-MM-dd"
+    }
+    
+    var body: some View {
+        Text(dateVal == "" ? "Select Date" : dateVal)
+            .foregroundColor(.accentColor)
+            .onTapGesture {
+                showingPicker.toggle()
+            }
+            .popover(isPresented: $showingPicker, attachmentAnchor: .point(.center)) {
+                NavigationView {
+                    VStack {
+                        DatePicker(selection: Binding(get: {
+                            dateFormatter.date(from:dateVal) ?? Date()
+                        }, set: {
+                            dateVal = dateFormatter.string(from: $0)
+                        }), displayedComponents: [.date]){
+                            
+                        }
+                                   .datePickerStyle(.graphical)
+                                   .toolbar {
+                                       ToolbarItem(placement: .cancellationAction) {
+                                           Button("Cancel") {
+                                               dateVal = dateFormatter.string(from: oldDate)
+                                               showingPicker = false
+                                           }
+                                       }
+                                       ToolbarItem(placement: .confirmationAction) {
+                                           Button("Done") {
+                                               dateVal = dateFormatter.string(from: (dateFormatter.date(from:dateVal) ?? Date()))
+                                               showingPicker = false
+                                           }
+                                       }
+                                   }
+                        Spacer()
+                    }
+                }
+            }
+            .onAppear {
+                oldDate = dateFormatter.date(from:dateVal) ?? Date()
+            }
     }
 }
 
